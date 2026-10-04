@@ -150,7 +150,7 @@ body.syncing #toast{bottom:calc(250px + env(safe-area-inset-bottom,0px))}
     <h1>Lyric Scroll</h1>
     <button id="installBtn" type="button" hidden>Install app</button>
   </div>
-  <p class="ver">Version 15</p>
+  <p class="ver">Version 16</p>
   <p class="sub">Paste your lyrics, time them to your song, style them, and export a video of the lines rolling up one at a time.</p>
   <details class="guide">
     <summary>How to use Lyric Scroll</summary>
@@ -183,7 +183,7 @@ body.syncing #toast{bottom:calc(250px + env(safe-area-inset-bottom,0px))}
       <p>Tap any section name to fold it up, so the preview stays close while you adjust settings. The app remembers which sections you keep closed.</p>
 
       <h3>Projects</h3>
-      <p>Give the song a title and press <b>Save project</b> to keep a small file with its lyrics, timing, and style. <b>Open project</b> brings it all back, so you can work on several songs or re-export one later in another frame shape. Choose the song and picture again after opening.</p>
+      <p><b>New project</b> clears everything back to the starting example so you can begin a new song (save the current one first). Give the song a title and press <b>Save project</b> to keep a small file with its lyrics, timing, and style. <b>Open project</b> brings it all back, so you can work on several songs or re-export one later in another frame shape. Choose the song and picture again after opening.</p>
 
       <h3>Backgrounds</h3>
       <p><b>Picture</b> has <b>Fill the frame</b> (crops to fill) or <b>Show whole picture</b> (the full photo with black around it), plus a <b>Darker ↔ Brighter</b> slider: left for moody, right to wash out detail.</p>
@@ -210,6 +210,7 @@ body.syncing #toast{bottom:calc(250px + env(safe-area-inset-bottom,0px))}
 
       <h3>What's new</h3>
       <ul>
+        <li><b>Version 16:</b> New project button to start a fresh song.</li>
         <li><b>Version 15:</b> Zoom and move the background picture to choose the crop.</li>
         <li><b>Version 14:</b> Include the song in the video (on or off in Export).</li>
         <li><b>Version 13:</b> Videos with a picture or solid background are built frame by frame, so they're the full length and save much faster.</li>
@@ -244,6 +245,7 @@ body.syncing #toast{bottom:calc(250px + env(safe-area-inset-bottom,0px))}
           <input type="text" id="projName" placeholder="Untitled song" autocomplete="off">
         </div>
         <div class="projbtns">
+          <button type="button" id="newProj" style="grid-column:1 / -1">New project</button>
           <button type="button" id="saveProj">Save project</button>
           <span class="pick"><span class="pickface">Open project</span><input type="file" id="projFile" accept=".json,application/json,text/plain"></span>
         </div>
@@ -306,7 +308,7 @@ body.syncing #toast{bottom:calc(250px + env(safe-area-inset-bottom,0px))}
         <h2>Lyrics</h2>
         <div class="field">
           <label for="titleText">Title line (optional)</label>
-          <input type="text" id="titleText" placeholder="e.g. Ghost Winds · MLSS" autocomplete="off">
+          <input type="text" id="titleText" placeholder="e.g. Peace · MLSS" autocomplete="off">
           <div class="row3">
             <div>
               <label for="titleStart">Fades in at</label>
@@ -1066,6 +1068,22 @@ $('fixLine').onchange=()=>{ if(!timingValid()) return; const m=mapTiming(); cons
 // ---------- projects ----------
 const slug = v => (v||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,60);
 function formValues(){ const f={}; FORM_IDS.forEach(id=>{ const el=$(id); f[id]= el.type==='checkbox'?el.checked:el.value; }); return f; }
+// Start fresh: every control back to its original value, the Peace sample lyrics, no timing.
+$('newProj').onclick=()=>{
+  if(!confirm('Start a new song? Everything goes back to the starting example. Save your current project first if you want to keep it.')) return;
+  stopPlay();
+  FORM_IDS.forEach(id=>{
+    const el=$(id);
+    if(el.type==='checkbox') el.checked=el.defaultChecked;
+    else if(el.tagName==='SELECT'){ const d=[...el.options].find(o=>o.defaultSelected)||el.options[0]; el.value=d.value; }
+    else el.value=el.defaultValue;
+  });
+  timing=null; audioBuf=null; bgImage=null; lastEstKey='';
+  $('songName').textContent='No song loaded'; $('imgName').textContent='No picture chosen';
+  $('projSaveBtn').hidden=true; $('saveBtn').hidden=true;
+  t=0; saveState(); loadFont().then(refresh);
+  projStatus('New project started.');
+};
 $('saveProj').onclick=async()=>{
   const name = $('projName').value.trim();
   const data = {app:'lyric-scroll', version:1, name, savedAt:new Date().toISOString(), f:formValues(), timing};
