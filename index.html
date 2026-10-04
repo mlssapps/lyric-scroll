@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lyric Scroll</title>
+<meta name="description" content="Turn lyrics into a scrolling lyric video, timed to your song by tapping.">
+<meta name="theme-color" content="#5B3FC4" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#16132A" media="(prefers-color-scheme: dark)">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Lyric Scroll">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Figtree:wght@400;500;600&family=Montserrat:wght@400;700&family=Bebas+Neue&family=Playfair+Display:wght@400;700&family=Poppins:wght@400;700&family=Oswald:wght@400;700&family=Lora:wght@400;700&family=Dancing+Script:wght@400;700&family=Permanent+Marker&family=Caveat:wght@400;700&family=Anton&family=Cinzel:wght@400;700&family=Space+Mono:wght@400;700&family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script>/* mp4-muxer 5.2.2 by Vanilagy, MIT License, https://github.com/Vanilagy/mp4-muxer */
+"use strict";var Mp4Muxer=(()=>{var e=Object.defineProperty,t=Object.getOwnPropertyDescriptor,i=Object.getOwnPropertyNames,s=Object.prototype.hasOwnProperty,a=(e,t,i)=>{if(!t.has(e))throw TypeError("Cannot "+i)},r=(e,t,i)=>(a(e,t,"read from private field"),i?i.call(e):t.get(e)),n=(e,t,i)=>{if(t.has(e))throw TypeError("Cannot add the same private member more than once");t instanceof WeakSet?t.add(e):t.set(e,i)},o=(e,t,i,s)=>(a(e,t,"write to private field"),s?s.call(e,i):t.set(e,i),i),h=(e,t,i)=>(a(e,t,"access private method"),i),l={};((t,i)=>{for(var s in i)e(t,s,{get:i[s],enumerable:!0})})(l,{ArrayBufferTarget:()=>Me,FileSystemWritableFileStreamTarget:()=>Oe,Muxer:()=>Rt,StreamTarget:()=>We});var d,f,u,m,p,c,w,g,b=new Uint8Array(8),y=new DataView(b.buffer),k=e=>[(e%256+256)%256],T=e=>(y.setUint16(0,e,!1),[b[0],b[1]]),C=e=>(y.setUint32(0,e,!1),[b[1],b[2],b[3]]),v=e=>(y.setUint32(0,e,!1),[b[0],b[1],b[2],b[3]]),S=e=>(y.setUint32(0,Math.floor(e/2**32),!1),y.setUint32(4,e,!1),[b[0],b[1],b[2],b[3],b[4],b[5],b[6],b[7]]),x=e=>(y.setInt16(0,256*e,!1),[b[0],b[1]]),z=e=>(y.setInt32(0,65536*e,!1),[b[0],b[1],b[2],b[3]]),E=e=>(y.setInt32(0,2**30*e,!1),[b[0],b[1],b[2],b[3]]),A=(e,t=!1)=>{let i=Array(e.length).fill(null).map((t,i)=>e.charCodeAt(i));return t&&i.push(0),i},M=e=>e&&e[e.length-1],W=e=>{let t;for(let i of e)(!t||i.presentationTimestamp>t.presentationTimestamp)&&(t=i);return t},O=(e,t,i=!0)=>{let s=e*t;return i?Math.round(s):s},B=e=>{let t=e*(Math.PI/180),i=Math.cos(t),s=Math.sin(t);return[i,s,0,-s,i,0,0,0,1]},U=B(0),D=e=>[z(e[0]),z(e[1]),E(e[2]),z(e[3]),z(e[4]),E(e[5]),z(e[6]),z(e[7]),E(e[8])],j=e=>e?"object"!=typeof e?e:Array.isArray(e)?e.map(j):Object.fromEntries(Object.entries(e).map(([e,t])=>[e,j(t)])):e,R=e=>e>=0&&e<2**32,I=(e,t,i)=>({type:e,contents:t&&new Uint8Array(t.flat(10)),children:i}),N=(e,t,i,s,a)=>I(e,[k(t),C(i),s??[]],a),V=e=>({type:"mdat",largeSize:e}),F=(e,t,i=!1)=>I("moov",null,[L(t,e),...e.map(e=>$(e,t)),i?me(e):null]),L=(e,t)=>{let i=O(Math.max(0,...t.filter(e=>e.samples.length>0).map(e=>{const t=W(e.samples);return t.presentationTimestamp+t.duration})),Bt),s=Math.max(...t.map(e=>e.id))+1,a=!R(e)||!R(i),r=a?S:v;return N("mvhd",+a,0,[r(e),r(e),v(Bt),r(i),z(1),x(1),Array(10).fill(0),D(U),Array(24).fill(0),v(s)])},$=(e,t)=>I("trak",null,[P(e,t),H(e,t)]),P=(e,t)=>{let i,s=W(e.samples),a=O(s?s.presentationTimestamp+s.duration:0,Bt),r=!R(t)||!R(a),n=r?S:v;return i="video"===e.info.type?"number"==typeof e.info.rotation?B(e.info.rotation):e.info.rotation:U,N("tkhd",+r,3,[n(t),n(t),v(e.id),v(0),n(a),Array(8).fill(0),T(0),T(0),x("audio"===e.info.type?1:0),T(0),D(i),z("video"===e.info.type?e.info.width:0),z("video"===e.info.type?e.info.height:0)])},H=(e,t)=>I("mdia",null,[_(e,t),q("video"===e.info.type?"vide":"soun"),G(e)]),_=(e,t)=>{let i=W(e.samples),s=O(i?i.presentationTimestamp+i.duration:0,e.timescale),a=!R(t)||!R(s),r=a?S:v;return N("mdhd",+a,0,[r(t),r(t),v(e.timescale),r(s),T(21956),T(0)])},q=e=>N("hdlr",0,0,[A("mhlr"),A(e),v(0),v(0),v(0),A("mp4-muxer-hdlr",!0)]),G=e=>I("minf",null,["video"===e.info.type?J():K(),Q(),Z(e)]),J=()=>N("vmhd",0,1,[T(0),T(0),T(0),T(0)]),K=()=>N("smhd",0,0,[T(0),T(0)]),Q=()=>I("dinf",null,[X()]),X=()=>N("dref",0,0,[v(1)],[Y()]),Y=()=>N("url ",0,1),Z=e=>{const t=e.compositionTimeOffsetTable.length>1||e.compositionTimeOffsetTable.some(e=>0!==e.sampleCompositionTimeOffset);return I("stbl",null,[ee(e),oe(e),he(e),le(e),de(e),fe(e),t?ue(e):null])},ee=e=>N("stsd",0,0,[v(1)],["video"===e.info.type?te(Se[e.info.codec],e):ne(ze[e.info.codec],e)]),te=(e,t)=>{return I(e,[Array(6).fill(0),T(1),T(0),T(0),Array(12).fill(0),T(t.info.width),T(t.info.height),v(4718592),v(4718592),v(0),T(1),Array(32).fill(0),T(24),(i=65535,y.setInt16(0,i,!1),[b[0],b[1]])],[xe[t.info.codec](t),t.info.decoderConfig.colorSpace?re(t):null]);var i},ie={bt709:1,bt470bg:5,smpte170m:6},se={bt709:1,smpte170m:6,"iec61966-2-1":13},ae={rgb:0,bt709:1,bt470bg:5,smpte170m:6},re=e=>I("colr",[A("nclx"),T(ie[e.info.decoderConfig.colorSpace.primaries]),T(se[e.info.decoderConfig.colorSpace.transfer]),T(ae[e.info.decoderConfig.colorSpace.matrix]),k((e.info.decoderConfig.colorSpace.fullRange?1:0)<<7)]),ne=(e,t)=>I(e,[Array(6).fill(0),T(1),T(0),T(0),v(0),T(t.info.numberOfChannels),T(16),T(0),T(0),z(t.info.sampleRate)],[Ee[t.info.codec](t)]),oe=e=>N("stts",0,0,[v(e.timeToSampleTable.length),e.timeToSampleTable.map(e=>[v(e.sampleCount),v(e.sampleDelta)])]),he=e=>{if(e.samples.every(e=>"key"===e.type))return null;let t=[...e.samples.entries()].filter(([,e])=>"key"===e.type);return N("stss",0,0,[v(t.length),t.map(([e])=>v(e+1))])},le=e=>N("stsc",0,0,[v(e.compactlyCodedChunkTable.length),e.compactlyCodedChunkTable.map(e=>[v(e.firstChunk),v(e.samplesPerChunk),v(1)])]),de=e=>N("stsz",0,0,[v(0),v(e.samples.length),e.samples.map(e=>v(e.size))]),fe=e=>e.finalizedChunks.length>0&&M(e.finalizedChunks).offset>=2**32?N("co64",0,0,[v(e.finalizedChunks.length),e.finalizedChunks.map(e=>S(e.offset))]):N("stco",0,0,[v(e.finalizedChunks.length),e.finalizedChunks.map(e=>v(e.offset))]),ue=e=>N("ctts",0,0,[v(e.compositionTimeOffsetTable.length),e.compositionTimeOffsetTable.map(e=>[v(e.sampleCount),v(e.sampleCompositionTimeOffset)])]),me=e=>I("mvex",null,e.map(pe)),pe=e=>N("trex",0,0,[v(e.id),v(1),v(0),v(0),v(0)]),ce=(e,t)=>I("moof",null,[we(e),...t.map(be)]),we=e=>N("mfhd",0,0,[v(e)]),ge=e=>{let t=0,i=0,s="delta"===e.type;return i|=+s,t|=s?1:2,t<<24|i<<16},be=e=>I("traf",null,[ye(e),ke(e),Te(e)]),ye=e=>{let t=0;t|=8,t|=16,t|=32,t|=131072;let i=e.currentChunk.samples[1]??e.currentChunk.samples[0],s={duration:i.timescaleUnitsToNextSample,size:i.size,flags:ge(i)};return N("tfhd",0,131128,[v(e.id),v(s.duration),v(s.size),v(s.flags)])},ke=e=>N("tfdt",1,0,[S(O(e.currentChunk.startTimestamp,e.timescale))]),Te=e=>{let t=e.currentChunk.samples.map(e=>e.timescaleUnitsToNextSample),i=e.currentChunk.samples.map(e=>e.size),s=e.currentChunk.samples.map(ge),a=e.currentChunk.samples.map(t=>O(t.presentationTimestamp-t.decodeTimestamp,e.timescale)),r=new Set(t),n=new Set(i),o=new Set(s),h=new Set(a),l=2===o.size&&s[0]!==s[1],d=r.size>1,f=n.size>1,u=!l&&o.size>1,m=h.size>1||[...h].some(e=>0!==e),p=0;return p|=1,p|=4*+l,p|=256*+d,p|=512*+f,p|=1024*+u,p|=2048*+m,N("trun",1,p,[v(e.currentChunk.samples.length),v(e.currentChunk.offset-e.currentChunk.moofOffset||0),l?v(s[0]):[],e.currentChunk.samples.map((e,r)=>{return[d?v(t[r]):[],f?v(i[r]):[],u?v(s[r]):[],m?(n=a[r],y.setInt32(0,n,!1),[b[0],b[1],b[2],b[3]]):[]];var n})])},Ce=(e,t)=>N("tfra",1,0,[v(e.id),v(63),v(e.finalizedChunks.length),e.finalizedChunks.map(i=>[S(O(i.startTimestamp,e.timescale)),S(i.moofOffset),v(t+1),v(1),v(1)])]),ve=()=>N("mfro",0,0,[v(0)]),Se={avc:"avc1",hevc:"hvc1",vp9:"vp09",av1:"av01"},xe={avc:e=>e.info.decoderConfig&&I("avcC",[...new Uint8Array(e.info.decoderConfig.description)]),hevc:e=>e.info.decoderConfig&&I("hvcC",[...new Uint8Array(e.info.decoderConfig.description)]),vp9:e=>{if(!e.info.decoderConfig)return null;let t=e.info.decoderConfig;if(!t.colorSpace)throw new Error("'colorSpace' is required in the decoder config for VP9.");let i=t.codec.split("."),s=Number(i[1]),a=Number(i[2]),r=0+(Number(i[3])<<4)+Number(t.colorSpace.fullRange);return N("vpcC",1,0,[k(s),k(a),k(r),k(2),k(2),k(2),T(0)])},av1:()=>I("av1C",[129,0,0,0])},ze={aac:"mp4a",opus:"Opus"},Ee={aac:e=>{let t=new Uint8Array(e.info.decoderConfig.description);return N("esds",0,0,[v(58753152),k(32+t.byteLength),T(1),k(0),v(75530368),k(18+t.byteLength),k(64),k(21),C(0),v(130071),v(130071),v(92307584),k(t.byteLength),...t,v(109084800),k(1),k(2)])},opus:e=>{let t=3840,i=0;const s=e.info.decoderConfig?.description;if(s){if(s.byteLength<18)throw new TypeError("Invalid decoder description provided for Opus; must be at least 18 bytes long.");const e=ArrayBuffer.isView(s)?new DataView(s.buffer,s.byteOffset,s.byteLength):new DataView(s);t=e.getUint16(10,!0),i=e.getInt16(14,!0)}return I("dOps",[k(0),k(e.info.numberOfChannels),T(t),v(e.info.sampleRate),x(i),k(0)])}},Ae=(Symbol("isTarget"),class{}),Me=class extends Ae{constructor(){super(...arguments),this.buffer=null}},We=class extends Ae{constructor(e){if(super(),this.options=e,"object"!=typeof e)throw new TypeError("StreamTarget requires an options object to be passed to its constructor.");if(e.onData){if("function"!=typeof e.onData)throw new TypeError("options.onData, when provided, must be a function.");if(e.onData.length<2)throw new TypeError("options.onData, when provided, must be a function that takes in at least two arguments (data and position). Ignoring the position argument, which specifies the byte offset at which the data is to be written, can lead to broken outputs.")}if(void 0!==e.chunked&&"boolean"!=typeof e.chunked)throw new TypeError("options.chunked, when provided, must be a boolean.");if(void 0!==e.chunkSize&&(!Number.isInteger(e.chunkSize)||e.chunkSize<1024))throw new TypeError("options.chunkSize, when provided, must be an integer and not smaller than 1024.")}},Oe=class extends Ae{constructor(e,t){if(super(),this.stream=e,this.options=t,!(e instanceof FileSystemWritableFileStream))throw new TypeError("FileSystemWritableFileStreamTarget requires a FileSystemWritableFileStream instance.");if(void 0!==t&&"object"!=typeof t)throw new TypeError("FileSystemWritableFileStreamTarget's options, when provided, must be an object.");if(t&&void 0!==t.chunkSize&&(!Number.isInteger(t.chunkSize)||t.chunkSize<=0))throw new TypeError("options.chunkSize, when provided, must be a positive integer")}},Be=class{constructor(){this.pos=0,n(this,d,new Uint8Array(8)),n(this,f,new DataView(r(this,d).buffer)),this.offsets=new WeakMap}seek(e){this.pos=e}writeU32(e){r(this,f).setUint32(0,e,!1),this.write(r(this,d).subarray(0,4))}writeU64(e){r(this,f).setUint32(0,Math.floor(e/2**32),!1),r(this,f).setUint32(4,e,!1),this.write(r(this,d).subarray(0,8))}writeAscii(e){for(let t=0;t<e.length;t++)r(this,f).setUint8(t%8,e.charCodeAt(t)),t%8==7&&this.write(r(this,d));e.length%8!=0&&this.write(r(this,d).subarray(0,e.length%8))}writeBox(e){if(this.offsets.set(e,this.pos),e.contents&&!e.children)this.writeBoxHeader(e,e.size??e.contents.byteLength+8),this.write(e.contents);else{let t=this.pos;if(this.writeBoxHeader(e,0),e.contents&&this.write(e.contents),e.children)for(let t of e.children)t&&this.writeBox(t);let i=this.pos,s=e.size??i-t;this.seek(t),this.writeBoxHeader(e,s),this.seek(i)}}writeBoxHeader(e,t){this.writeU32(e.largeSize?1:t),this.writeAscii(e.type),e.largeSize&&this.writeU64(t)}measureBoxHeader(e){return 8+(e.largeSize?8:0)}patchBox(e){let t=this.pos;this.seek(this.offsets.get(e)),this.writeBox(e),this.seek(t)}measureBox(e){if(e.contents&&!e.children){return this.measureBoxHeader(e)+e.contents.byteLength}{let t=this.measureBoxHeader(e);if(e.contents&&(t+=e.contents.byteLength),e.children)for(let i of e.children)i&&(t+=this.measureBox(i));return t}}};d=new WeakMap,f=new WeakMap;var Ue=class extends Be{constructor(e){super(),n(this,w),n(this,u,void 0),n(this,m,new ArrayBuffer(65536)),n(this,p,new Uint8Array(r(this,m))),n(this,c,0),o(this,u,e)}write(e){h(this,w,g).call(this,this.pos+e.byteLength),r(this,p).set(e,this.pos),this.pos+=e.byteLength,o(this,c,Math.max(r(this,c),this.pos))}finalize(){h(this,w,g).call(this,this.pos),r(this,u).buffer=r(this,m).slice(0,Math.max(r(this,c),this.pos))}};u=new WeakMap,m=new WeakMap,p=new WeakMap,c=new WeakMap,w=new WeakSet,g=function(e){let t=r(this,m).byteLength;for(;t<e;)t*=2;if(t===r(this,m).byteLength)return;let i=new ArrayBuffer(t),s=new Uint8Array(i);s.set(r(this,p),0),o(this,m,i),o(this,p,s)};var De,je,Re,Ie,Ne,Ve,Fe,Le,$e,Pe,He,_e,qe,Ge=class extends Be{constructor(e){super(),n(this,Ve),n(this,Le),n(this,Pe),n(this,_e),n(this,De,void 0),n(this,je,[]),n(this,Re,void 0),n(this,Ie,void 0),n(this,Ne,[]),o(this,De,e),o(this,Re,e.options?.chunked??!1),o(this,Ie,e.options?.chunkSize??16777216)}write(e){r(this,je).push({data:e.slice(),start:this.pos}),this.pos+=e.byteLength}flush(){if(0===r(this,je).length)return;let e=[],t=[...r(this,je)].sort((e,t)=>e.start-t.start);e.push({start:t[0].start,size:t[0].data.byteLength});for(let i=1;i<t.length;i++){let s=e[e.length-1],a=t[i];a.start<=s.start+s.size?s.size=Math.max(s.size,a.start+a.data.byteLength-s.start):e.push({start:a.start,size:a.data.byteLength})}for(let t of e){t.data=new Uint8Array(t.size);for(let e of r(this,je))t.start<=e.start&&e.start<t.start+t.size&&t.data.set(e.data,e.start-t.start);r(this,Re)?(h(this,Ve,Fe).call(this,t.data,t.start),h(this,_e,qe).call(this)):r(this,De).options.onData?.(t.data,t.start)}r(this,je).length=0}finalize(){r(this,Re)&&h(this,_e,qe).call(this,!0)}};De=new WeakMap,je=new WeakMap,Re=new WeakMap,Ie=new WeakMap,Ne=new WeakMap,Ve=new WeakSet,Fe=function(e,t){let i=r(this,Ne).findIndex(e=>e.start<=t&&t<e.start+r(this,Ie));-1===i&&(i=h(this,Pe,He).call(this,t));let s=r(this,Ne)[i],a=t-s.start,n=e.subarray(0,Math.min(r(this,Ie)-a,e.byteLength));s.data.set(n,a);let o={start:a,end:a+n.byteLength};if(h(this,Le,$e).call(this,s,o),0===s.written[0].start&&s.written[0].end===r(this,Ie)&&(s.shouldFlush=!0),r(this,Ne).length>2){for(let e=0;e<r(this,Ne).length-1;e++)r(this,Ne)[e].shouldFlush=!0;h(this,_e,qe).call(this)}n.byteLength<e.byteLength&&h(this,Ve,Fe).call(this,e.subarray(n.byteLength),t+n.byteLength)},Le=new WeakSet,$e=function(e,t){let i=0,s=e.written.length-1,a=-1;for(;i<=s;){let r=Math.floor(i+(s-i+1)/2);e.written[r].start<=t.start?(i=r+1,a=r):s=r-1}for(e.written.splice(a+1,0,t),(-1===a||e.written[a].end<t.start)&&a++;a<e.written.length-1&&e.written[a].end>=e.written[a+1].start;)e.written[a].end=Math.max(e.written[a].end,e.written[a+1].end),e.written.splice(a+1,1)},Pe=new WeakSet,He=function(e){let t={start:Math.floor(e/r(this,Ie))*r(this,Ie),data:new Uint8Array(r(this,Ie)),written:[],shouldFlush:!1};return r(this,Ne).push(t),r(this,Ne).sort((e,t)=>e.start-t.start),r(this,Ne).indexOf(t)},_e=new WeakSet,qe=function(e=!1){for(let t=0;t<r(this,Ne).length;t++){let i=r(this,Ne)[t];if(i.shouldFlush||e){for(let e of i.written)r(this,De).options.onData?.(i.data.subarray(e.start,e.end),i.start+e.start);r(this,Ne).splice(t--,1)}}};var Je,Ke,Qe,Xe,Ye,Ze,et,tt,it,st,at,rt,nt,ot,ht,lt,dt,ft,ut,mt,pt,ct,wt,gt,bt,yt,kt,Tt,Ct,vt,St,xt,zt,Et,At,Mt,Wt,Ot=class extends Ge{constructor(e){super(new We({onData:(t,i)=>e.stream.write({type:"write",data:t,position:i}),chunked:!0,chunkSize:e.options?.chunkSize}))}},Bt=1e3,Ut=["avc","hevc","vp9","av1"],Dt=["aac","opus"],jt=["strict","offset","cross-track-offset"],Rt=class{constructor(e){if(n(this,nt),n(this,ht),n(this,dt),n(this,ut),n(this,pt),n(this,wt),n(this,bt),n(this,kt),n(this,Ct),n(this,St),n(this,zt),n(this,At),n(this,Je,void 0),n(this,Ke,void 0),n(this,Qe,void 0),n(this,Xe,void 0),n(this,Ye,null),n(this,Ze,null),n(this,et,Math.floor(Date.now()/1e3)+2082844800),n(this,tt,[]),n(this,it,1),n(this,st,[]),n(this,at,[]),n(this,rt,!1),h(this,nt,ot).call(this,e),e.video=j(e.video),e.audio=j(e.audio),e.fastStart=j(e.fastStart),this.target=e.target,o(this,Je,{firstTimestampBehavior:"strict",...e}),e.target instanceof Me)o(this,Ke,new Ue(e.target));else if(e.target instanceof We)o(this,Ke,new Ge(e.target));else{if(!(e.target instanceof Oe))throw new Error(`Invalid target: ${e.target}`);o(this,Ke,new Ot(e.target))}h(this,ut,mt).call(this),h(this,ht,lt).call(this)}addVideoChunk(e,t,i,s){if(!(e instanceof EncodedVideoChunk))throw new TypeError("addVideoChunk's first argument (sample) must be of type EncodedVideoChunk.");if(t&&"object"!=typeof t)throw new TypeError("addVideoChunk's second argument (meta), when provided, must be an object.");if(void 0!==i&&(!Number.isFinite(i)||i<0))throw new TypeError("addVideoChunk's third argument (timestamp), when provided, must be a non-negative real number.");if(void 0!==s&&!Number.isFinite(s))throw new TypeError("addVideoChunk's fourth argument (compositionTimeOffset), when provided, must be a real number.");let a=new Uint8Array(e.byteLength);e.copyTo(a),this.addVideoChunkRaw(a,e.type,i??e.timestamp,e.duration,t,s)}addVideoChunkRaw(e,t,i,s,a,n){if(!(e instanceof Uint8Array))throw new TypeError("addVideoChunkRaw's first argument (data) must be an instance of Uint8Array.");if("key"!==t&&"delta"!==t)throw new TypeError("addVideoChunkRaw's second argument (type) must be either 'key' or 'delta'.");if(!Number.isFinite(i)||i<0)throw new TypeError("addVideoChunkRaw's third argument (timestamp) must be a non-negative real number.");if(!Number.isFinite(s)||s<0)throw new TypeError("addVideoChunkRaw's fourth argument (duration) must be a non-negative real number.");if(a&&"object"!=typeof a)throw new TypeError("addVideoChunkRaw's fifth argument (meta), when provided, must be an object.");if(void 0!==n&&!Number.isFinite(n))throw new TypeError("addVideoChunkRaw's sixth argument (compositionTimeOffset), when provided, must be a real number.");if(h(this,At,Mt).call(this),!r(this,Je).video)throw new Error("No video track declared.");if("object"==typeof r(this,Je).fastStart&&r(this,Ye).samples.length===r(this,Je).fastStart.expectedVideoChunks)throw new Error(`Cannot add more video chunks than specified in 'fastStart' (${r(this,Je).fastStart.expectedVideoChunks}).`);let o=h(this,wt,gt).call(this,r(this,Ye),e,t,i,s,a,n);if("fragmented"===r(this,Je).fastStart&&r(this,Ze)){for(;r(this,at).length>0&&r(this,at)[0].decodeTimestamp<=o.decodeTimestamp;){let e=r(this,at).shift();h(this,bt,yt).call(this,r(this,Ze),e)}o.decodeTimestamp<=r(this,Ze).lastDecodeTimestamp?h(this,bt,yt).call(this,r(this,Ye),o):r(this,st).push(o)}else h(this,bt,yt).call(this,r(this,Ye),o)}addAudioChunk(e,t,i){if(!(e instanceof EncodedAudioChunk))throw new TypeError("addAudioChunk's first argument (sample) must be of type EncodedAudioChunk.");if(t&&"object"!=typeof t)throw new TypeError("addAudioChunk's second argument (meta), when provided, must be an object.");if(void 0!==i&&(!Number.isFinite(i)||i<0))throw new TypeError("addAudioChunk's third argument (timestamp), when provided, must be a non-negative real number.");let s=new Uint8Array(e.byteLength);e.copyTo(s),this.addAudioChunkRaw(s,e.type,i??e.timestamp,e.duration,t)}addAudioChunkRaw(e,t,i,s,a){if(!(e instanceof Uint8Array))throw new TypeError("addAudioChunkRaw's first argument (data) must be an instance of Uint8Array.");if("key"!==t&&"delta"!==t)throw new TypeError("addAudioChunkRaw's second argument (type) must be either 'key' or 'delta'.");if(!Number.isFinite(i)||i<0)throw new TypeError("addAudioChunkRaw's third argument (timestamp) must be a non-negative real number.");if(!Number.isFinite(s)||s<0)throw new TypeError("addAudioChunkRaw's fourth argument (duration) must be a non-negative real number.");if(a&&"object"!=typeof a)throw new TypeError("addAudioChunkRaw's fifth argument (meta), when provided, must be an object.");if(h(this,At,Mt).call(this),!r(this,Je).audio)throw new Error("No audio track declared.");if("object"==typeof r(this,Je).fastStart&&r(this,Ze).samples.length===r(this,Je).fastStart.expectedAudioChunks)throw new Error(`Cannot add more audio chunks than specified in 'fastStart' (${r(this,Je).fastStart.expectedAudioChunks}).`);let n=h(this,wt,gt).call(this,r(this,Ze),e,t,i,s,a);if("fragmented"===r(this,Je).fastStart&&r(this,Ye)){for(;r(this,st).length>0&&r(this,st)[0].decodeTimestamp<=n.decodeTimestamp;){let e=r(this,st).shift();h(this,bt,yt).call(this,r(this,Ye),e)}n.decodeTimestamp<=r(this,Ye).lastDecodeTimestamp?h(this,bt,yt).call(this,r(this,Ze),n):r(this,at).push(n)}else h(this,bt,yt).call(this,r(this,Ze),n)}finalize(){if(r(this,rt))throw new Error("Cannot finalize a muxer more than once.");if("fragmented"===r(this,Je).fastStart){for(let e of r(this,st))h(this,bt,yt).call(this,r(this,Ye),e);for(let e of r(this,at))h(this,bt,yt).call(this,r(this,Ze),e);h(this,St,xt).call(this,!1)}else r(this,Ye)&&h(this,Ct,vt).call(this,r(this,Ye)),r(this,Ze)&&h(this,Ct,vt).call(this,r(this,Ze));let e=[r(this,Ye),r(this,Ze)].filter(Boolean);if("in-memory"===r(this,Je).fastStart){let t;for(let i=0;i<2;i++){let i=F(e,r(this,et)),s=r(this,Ke).measureBox(i);t=r(this,Ke).measureBox(r(this,Xe));let a=r(this,Ke).pos+s+t;for(let e of r(this,tt)){e.offset=a;for(let{data:i}of e.samples)a+=i.byteLength,t+=i.byteLength}if(a<2**32)break;t>=2**32&&(r(this,Xe).largeSize=!0)}let i=F(e,r(this,et));r(this,Ke).writeBox(i),r(this,Xe).size=t,r(this,Ke).writeBox(r(this,Xe));for(let e of r(this,tt))for(let t of e.samples)r(this,Ke).write(t.data),t.data=null}else if("fragmented"===r(this,Je).fastStart){let t=r(this,Ke).pos,i=(e=>I("mfra",null,[...e.map(Ce),ve()]))(e);r(this,Ke).writeBox(i);let s=r(this,Ke).pos-t;r(this,Ke).seek(r(this,Ke).pos-4),r(this,Ke).writeU32(s)}else{let t=r(this,Ke).offsets.get(r(this,Xe)),i=r(this,Ke).pos-t;r(this,Xe).size=i,r(this,Xe).largeSize=i>=2**32,r(this,Ke).patchBox(r(this,Xe));let s=F(e,r(this,et));if("object"==typeof r(this,Je).fastStart){r(this,Ke).seek(r(this,Qe)),r(this,Ke).writeBox(s);let e=t-r(this,Ke).pos;r(this,Ke).writeBox({type:"free",size:e})}else r(this,Ke).writeBox(s)}h(this,zt,Et).call(this),r(this,Ke).finalize(),o(this,rt,!0)}};return Je=new WeakMap,Ke=new WeakMap,Qe=new WeakMap,Xe=new WeakMap,Ye=new WeakMap,Ze=new WeakMap,et=new WeakMap,tt=new WeakMap,it=new WeakMap,st=new WeakMap,at=new WeakMap,rt=new WeakMap,nt=new WeakSet,ot=function(e){if("object"!=typeof e)throw new TypeError("The muxer requires an options object to be passed to its constructor.");if(!(e.target instanceof Ae))throw new TypeError("The target must be provided and an instance of Target.");if(e.video){if(!Ut.includes(e.video.codec))throw new TypeError(`Unsupported video codec: ${e.video.codec}`);if(!Number.isInteger(e.video.width)||e.video.width<=0)throw new TypeError(`Invalid video width: ${e.video.width}. Must be a positive integer.`);if(!Number.isInteger(e.video.height)||e.video.height<=0)throw new TypeError(`Invalid video height: ${e.video.height}. Must be a positive integer.`);const t=e.video.rotation;if("number"==typeof t&&![0,90,180,270].includes(t))throw new TypeError(`Invalid video rotation: ${t}. Has to be 0, 90, 180 or 270.`);if(Array.isArray(t)&&(9!==t.length||t.some(e=>"number"!=typeof e)))throw new TypeError(`Invalid video transformation matrix: ${t.join()}`);if(void 0!==e.video.frameRate&&(!Number.isInteger(e.video.frameRate)||e.video.frameRate<=0))throw new TypeError(`Invalid video frame rate: ${e.video.frameRate}. Must be a positive integer.`)}if(e.audio){if(!Dt.includes(e.audio.codec))throw new TypeError(`Unsupported audio codec: ${e.audio.codec}`);if(!Number.isInteger(e.audio.numberOfChannels)||e.audio.numberOfChannels<=0)throw new TypeError(`Invalid number of audio channels: ${e.audio.numberOfChannels}. Must be a positive integer.`);if(!Number.isInteger(e.audio.sampleRate)||e.audio.sampleRate<=0)throw new TypeError(`Invalid audio sample rate: ${e.audio.sampleRate}. Must be a positive integer.`)}if(e.firstTimestampBehavior&&!jt.includes(e.firstTimestampBehavior))throw new TypeError(`Invalid first timestamp behavior: ${e.firstTimestampBehavior}`);if("object"==typeof e.fastStart){if(e.video){if(void 0===e.fastStart.expectedVideoChunks)throw new TypeError("'fastStart' is an object but is missing property 'expectedVideoChunks'.");if(!Number.isInteger(e.fastStart.expectedVideoChunks)||e.fastStart.expectedVideoChunks<0)throw new TypeError("'expectedVideoChunks' must be a non-negative integer.")}if(e.audio){if(void 0===e.fastStart.expectedAudioChunks)throw new TypeError("'fastStart' is an object but is missing property 'expectedAudioChunks'.");if(!Number.isInteger(e.fastStart.expectedAudioChunks)||e.fastStart.expectedAudioChunks<0)throw new TypeError("'expectedAudioChunks' must be a non-negative integer.")}}else if(![!1,"in-memory","fragmented"].includes(e.fastStart))throw new TypeError("'fastStart' option must be false, 'in-memory', 'fragmented' or an object.");if(void 0!==e.minFragmentDuration&&(!Number.isFinite(e.minFragmentDuration)||e.minFragmentDuration<0))throw new TypeError("'minFragmentDuration' must be a non-negative number.")},ht=new WeakSet,lt=function(){var e;if(r(this,Ke).writeBox((e={holdsAvc:"avc"===r(this,Je).video?.codec,fragmented:"fragmented"===r(this,Je).fastStart}).fragmented?I("ftyp",[A("iso5"),v(512),A("iso5"),A("iso6"),A("mp41")]):I("ftyp",[A("isom"),v(512),A("isom"),e.holdsAvc?A("avc1"):[],A("mp41")])),o(this,Qe,r(this,Ke).pos),"in-memory"===r(this,Je).fastStart)o(this,Xe,V(!1));else if("fragmented"===r(this,Je).fastStart);else{if("object"==typeof r(this,Je).fastStart){let e=h(this,dt,ft).call(this);r(this,Ke).seek(r(this,Ke).pos+e)}o(this,Xe,V(!0)),r(this,Ke).writeBox(r(this,Xe))}h(this,zt,Et).call(this)},dt=new WeakSet,ft=function(){if("object"!=typeof r(this,Je).fastStart)return;let e=0,t=[r(this,Je).fastStart.expectedVideoChunks,r(this,Je).fastStart.expectedAudioChunks];for(let i of t)i&&(e+=8*Math.ceil(2/3*i),e+=4*i,e+=12*Math.ceil(2/3*i),e+=4*i,e+=8*i);return e+=4096,e},ut=new WeakSet,mt=function(){if(r(this,Je).video&&o(this,Ye,{id:1,info:{type:"video",codec:r(this,Je).video.codec,width:r(this,Je).video.width,height:r(this,Je).video.height,rotation:r(this,Je).video.rotation??0,decoderConfig:null},timescale:r(this,Je).video.frameRate??57600,samples:[],finalizedChunks:[],currentChunk:null,firstDecodeTimestamp:void 0,lastDecodeTimestamp:-1,timeToSampleTable:[],compositionTimeOffsetTable:[],lastTimescaleUnits:null,lastSample:null,compactlyCodedChunkTable:[]}),r(this,Je).audio&&(o(this,Ze,{id:r(this,Je).video?2:1,info:{type:"audio",codec:r(this,Je).audio.codec,numberOfChannels:r(this,Je).audio.numberOfChannels,sampleRate:r(this,Je).audio.sampleRate,decoderConfig:null},timescale:r(this,Je).audio.sampleRate,samples:[],finalizedChunks:[],currentChunk:null,firstDecodeTimestamp:void 0,lastDecodeTimestamp:-1,timeToSampleTable:[],compositionTimeOffsetTable:[],lastTimescaleUnits:null,lastSample:null,compactlyCodedChunkTable:[]}),"aac"===r(this,Je).audio.codec)){let e=h(this,pt,ct).call(this,2,r(this,Je).audio.sampleRate,r(this,Je).audio.numberOfChannels);r(this,Ze).info.decoderConfig={codec:r(this,Je).audio.codec,description:e,numberOfChannels:r(this,Je).audio.numberOfChannels,sampleRate:r(this,Je).audio.sampleRate}}},pt=new WeakSet,ct=function(e,t,i){let s=[96e3,88200,64e3,48e3,44100,32e3,24e3,22050,16e3,12e3,11025,8e3,7350].indexOf(t),a=i,r="";r+=e.toString(2).padStart(5,"0"),r+=s.toString(2).padStart(4,"0"),15===s&&(r+=t.toString(2).padStart(24,"0")),r+=a.toString(2).padStart(4,"0");let n=8*Math.ceil(r.length/8);r=r.padEnd(n,"0");let o=new Uint8Array(r.length/8);for(let e=0;e<r.length;e+=8)o[e/8]=parseInt(r.slice(e,e+8),2);return o},wt=new WeakSet,gt=function(e,t,i,s,a,r,n){let o=s/1e6,l=(s-(n??0))/1e6,d=a/1e6,f=h(this,kt,Tt).call(this,o,l,e);return o=f.presentationTimestamp,l=f.decodeTimestamp,r?.decoderConfig&&(null===e.info.decoderConfig?e.info.decoderConfig=r.decoderConfig:Object.assign(e.info.decoderConfig,r.decoderConfig)),{presentationTimestamp:o,decodeTimestamp:l,duration:d,data:t,size:t.byteLength,type:i,timescaleUnitsToNextSample:O(d,e.timescale)}},bt=new WeakSet,yt=function(e,t){"fragmented"!==r(this,Je).fastStart&&e.samples.push(t);const i=O(t.presentationTimestamp-t.decodeTimestamp,e.timescale);if(null!==e.lastTimescaleUnits){let s=O(t.decodeTimestamp,e.timescale,!1),a=Math.round(s-e.lastTimescaleUnits);if(e.lastTimescaleUnits+=a,e.lastSample.timescaleUnitsToNextSample=a,"fragmented"!==r(this,Je).fastStart){let t=M(e.timeToSampleTable);1===t.sampleCount?(t.sampleDelta=a,t.sampleCount++):t.sampleDelta===a?t.sampleCount++:(t.sampleCount--,e.timeToSampleTable.push({sampleCount:2,sampleDelta:a}));const s=M(e.compositionTimeOffsetTable);s.sampleCompositionTimeOffset===i?s.sampleCount++:e.compositionTimeOffsetTable.push({sampleCount:1,sampleCompositionTimeOffset:i})}}else e.lastTimescaleUnits=0,"fragmented"!==r(this,Je).fastStart&&(e.timeToSampleTable.push({sampleCount:1,sampleDelta:O(t.duration,e.timescale)}),e.compositionTimeOffsetTable.push({sampleCount:1,sampleCompositionTimeOffset:i}));e.lastSample=t;let s=!1;if(e.currentChunk){let i=t.presentationTimestamp-e.currentChunk.startTimestamp;if("fragmented"===r(this,Je).fastStart){let a=r(this,Ye)??r(this,Ze);const n=r(this,Je).minFragmentDuration??1;e===a&&"key"===t.type&&i>=n&&(s=!0,h(this,St,xt).call(this))}else s=i>=.5}else s=!0;s&&(e.currentChunk&&h(this,Ct,vt).call(this,e),e.currentChunk={startTimestamp:t.presentationTimestamp,samples:[]}),e.currentChunk.samples.push(t)},kt=new WeakSet,Tt=function(e,t,i){const s="strict"===r(this,Je).firstTimestampBehavior,a=-1===i.lastDecodeTimestamp;if(s&&a&&0!==t)throw new Error(`The first chunk for your media track must have a timestamp of 0 (received DTS=${t}).Non-zero first timestamps are often caused by directly piping frames or audio data from a MediaStreamTrack into the encoder. Their timestamps are typically relative to the age of thedocument, which is probably what you want.\n\nIf you want to offset all timestamps of a track such that the first one is zero, set firstTimestampBehavior: 'offset' in the options.\n`);if("offset"===r(this,Je).firstTimestampBehavior||"cross-track-offset"===r(this,Je).firstTimestampBehavior){let s;void 0===i.firstDecodeTimestamp&&(i.firstDecodeTimestamp=t),s="offset"===r(this,Je).firstTimestampBehavior?i.firstDecodeTimestamp:Math.min(r(this,Ye)?.firstDecodeTimestamp??1/0,r(this,Ze)?.firstDecodeTimestamp??1/0),t-=s,e-=s}if(t<i.lastDecodeTimestamp)throw new Error(`Timestamps must be monotonically increasing (DTS went from ${1e6*i.lastDecodeTimestamp} to ${1e6*t}).`);return i.lastDecodeTimestamp=t,{presentationTimestamp:e,decodeTimestamp:t}},Ct=new WeakSet,vt=function(e){if("fragmented"===r(this,Je).fastStart)throw new Error("Can't finalize individual chunks if 'fastStart' is set to 'fragmented'.");if(e.currentChunk)if(e.finalizedChunks.push(e.currentChunk),r(this,tt).push(e.currentChunk),0!==e.compactlyCodedChunkTable.length&&M(e.compactlyCodedChunkTable).samplesPerChunk===e.currentChunk.samples.length||e.compactlyCodedChunkTable.push({firstChunk:e.finalizedChunks.length,samplesPerChunk:e.currentChunk.samples.length}),"in-memory"!==r(this,Je).fastStart){e.currentChunk.offset=r(this,Ke).pos;for(let t of e.currentChunk.samples)r(this,Ke).write(t.data),t.data=null;h(this,zt,Et).call(this)}else e.currentChunk.offset=0},St=new WeakSet,xt=function(e=!0){if("fragmented"!==r(this,Je).fastStart)throw new Error("Can't finalize a fragment unless 'fastStart' is set to 'fragmented'.");let t=[r(this,Ye),r(this,Ze)].filter(e=>e&&e.currentChunk);if(0===t.length)return;let i=(s=this,a=it,{set _(e){o(s,a,e,n)},get _(){return r(s,a,l)}})._++;var s,a,n,l;if(1===i){let e=F(t,r(this,et),!0);r(this,Ke).writeBox(e)}let d=r(this,Ke).pos,f=ce(i,t);r(this,Ke).writeBox(f);{let e=V(!1),i=0;for(let e of t)for(let t of e.currentChunk.samples)i+=t.size;let s=r(this,Ke).measureBox(e)+i;s>=2**32&&(e.largeSize=!0,s=r(this,Ke).measureBox(e)+i),e.size=s,r(this,Ke).writeBox(e)}for(let e of t){e.currentChunk.offset=r(this,Ke).pos,e.currentChunk.moofOffset=d;for(let t of e.currentChunk.samples)r(this,Ke).write(t.data),t.data=null}let u=r(this,Ke).pos;r(this,Ke).seek(r(this,Ke).offsets.get(f));let m=ce(i,t);r(this,Ke).writeBox(m),r(this,Ke).seek(u);for(let e of t)e.finalizedChunks.push(e.currentChunk),r(this,tt).push(e.currentChunk),e.currentChunk=null;e&&h(this,zt,Et).call(this)},zt=new WeakSet,Et=function(){r(this,Ke)instanceof Ge&&r(this,Ke).flush()},At=new WeakSet,Mt=function(){if(r(this,rt))throw new Error("Cannot add new video or audio chunks after the file has been finalized.")},Wt=l,((a,r,n,o)=>{if(r&&"object"==typeof r||"function"==typeof r)for(let h of i(r))s.call(a,h)||h===n||e(a,h,{get:()=>r[h],enumerable:!(o=t(r,h))||o.enumerable});return a})(e({},"__esModule",{value:!0}),Wt)})();"object"==typeof module&&"object"==typeof module.exports&&Object.assign(module.exports,Mp4Muxer);
+</script>
+<style>
+:root{
+  --bg:#EEEAF6; --panel:#FFFFFF; --ink:#211C3A; --muted:#625C7E; --line:#D9D3EA;
+  --accent:#5B3FC4; --accent-ink:#FFFFFF; --check-a:#E4E0EF; --check-b:#F6F4FB;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#16132A; --panel:#211D3B; --ink:#EEEAF8; --muted:#A49DC4; --line:#352F5A;
+    --accent:#B9A6FF; --accent-ink:#16132A; --check-a:#2A2549; --check-b:#1E1A37;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#16132A; --panel:#211D3B; --ink:#EEEAF8; --muted:#A49DC4; --line:#352F5A;
+  --accent:#B9A6FF; --accent-ink:#16132A; --check-a:#2A2549; --check-b:#1E1A37;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:16px;line-height:1.5}
+[hidden]{display:none !important}
+.wrap{max-width:1180px;margin:0 auto;padding:20px 16px 48px}
+body.syncing .wrap{padding-bottom:260px}
+h1{font-family:"Fraunces",Georgia,serif;font-weight:700;font-size:clamp(28px,5vw,40px);letter-spacing:-0.01em;margin:4px 0 2px}
+.sub{color:var(--muted);margin:0 0 20px;max-width:60ch}
+.guide{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 18px;margin:0 0 20px;border-top:1px solid var(--line)}
+.guide summary{margin:0;color:var(--ink)}
+.guide[open] summary{margin-bottom:6px}
+.guidebody{max-width:68ch}
+.guidebody h3{font-family:"Fraunces",Georgia,serif;font-weight:500;font-size:18px;margin:16px 0 4px}
+.guidebody p,.guidebody li{font-size:15px}
+.guidebody p{margin:0 0 8px}
+.guidebody ol,.guidebody ul{padding-left:22px;margin:0 0 8px}
+.guidebody li{margin-bottom:4px}
+.ver{margin:-2px 0 6px;font-size:13px;color:var(--muted)}
+.titlerow{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:860px){.grid{grid-template-columns:1fr}}
+.stage{position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px)}
+@media (max-width:860px){
+  .stage{position:static}
+  /* Phones and narrow screens: Project, Export, and Lyrics sit above the preview; the rest below. */
+  .controls{display:contents}
+  .controls > .panel{order:3;margin-top:0 !important}
+  .controls > .panel[data-sec="project"],.controls > .panel[data-sec="export"],.controls > .panel[data-sec="lyrics"]{order:1}
+  .stage{order:2}
+  .grid{gap:16px}
+}
+.screen{border-radius:14px;overflow:hidden;border:1px solid var(--line);
+  background-color:var(--check-b);
+  background-image:linear-gradient(45deg,var(--check-a) 25%,transparent 25%,transparent 75%,var(--check-a) 75%),linear-gradient(45deg,var(--check-a) 25%,transparent 25%,transparent 75%,var(--check-a) 75%);
+  background-size:20px 20px;background-position:0 0,10px 10px;display:flex;justify-content:center;align-items:center}
+.screen.dark{--check-a:#2b2b2b;--check-b:#1f1f1f}
+canvas#preview{display:block;width:100%;height:auto;max-height:70vh;object-fit:contain}
+.transport{display:flex;gap:10px;align-items:center;margin-top:12px}
+.transport input[type=range]{flex:1}
+.time{font-variant-numeric:tabular-nums;color:var(--muted);font-size:14px;min-width:92px;text-align:right}
+.bgtoggle{font-size:14px;color:var(--muted);display:flex;gap:6px;align-items:center;margin-top:8px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px}
+.panel h2{font-family:"Fraunces",Georgia,serif;font-size:20px;font-weight:500;margin:0 0 12px}
+.panel + .panel{margin-top:16px}
+label{display:block;font-size:14px;font-weight:600;margin:0 0 6px}
+.field{margin-bottom:14px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+textarea,select,input[type=number],input[type=text]{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+textarea{min-height:200px;resize:vertical;line-height:1.45}
+input[type=color]{width:100%;height:44px;border:1px solid var(--line);border-radius:10px;background:var(--bg);padding:4px}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.rangeval{float:right;font-weight:500;color:var(--muted);font-variant-numeric:tabular-nums}
+.check{display:flex;gap:8px;align-items:center;font-weight:500;font-size:15px;margin-bottom:10px}
+.check input{width:18px;height:18px;accent-color:var(--accent)}
+.hint{font-size:13px;color:var(--muted);margin:6px 0 0}
+.note{font-size:14px;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin:0 0 14px}
+button{font:inherit;font-weight:600;border-radius:10px;padding:11px 16px;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer}
+button.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+button:disabled{opacity:.5;cursor:not-allowed}
+button:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.filebtn{display:flex;gap:10px;align-items:center}
+.filebtn span{font-size:14px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.exports{display:grid;gap:10px;margin-top:6px}
+.pick{position:relative;display:inline-block;flex:none}
+.pickface{display:inline-block;font-weight:600;border-radius:10px;padding:11px 16px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+.pick input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;font-size:16px}
+.pick:focus-within .pickface{outline:3px solid var(--accent);outline-offset:2px}
+.nudges{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.row3{display:grid;grid-template-columns:1fr 1fr 0.8fr;gap:10px;margin-top:10px}
+.row3 label{font-size:13px}
+.nudges button{padding:10px 8px}
+.nudges.one{grid-template-columns:1fr;margin:-4px 0 14px}
+.projbtns{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.projbtns .pick,.projbtns .pickface{display:block;text-align:center}
+button.small{margin-top:6px;padding:6px 10px;font-size:13px;font-weight:500}
+details{border-top:1px solid var(--line);margin-top:6px;padding-top:10px}
+details summary{cursor:pointer;font-weight:600;font-size:15px;margin-bottom:10px;color:var(--muted)}
+details[open] summary{color:var(--ink)}
+.dropzone{position:fixed;inset:12px;z-index:30;border:3px dashed var(--accent);border-radius:20px;background:color-mix(in srgb,var(--bg) 85%,transparent);display:flex;align-items:center;justify-content:center;font-family:"Fraunces",Georgia,serif;font-size:28px;pointer-events:none}
+.progress{height:8px;background:var(--bg);border-radius:99px;overflow:hidden;border:1px solid var(--line);margin-top:12px;display:none}
+.progress > div{height:100%;width:0;background:var(--accent);transition:width .15s}
+#status,.status{font-size:14px;color:var(--muted);margin-top:8px;min-height:1.5em}
+.status:empty{min-height:0;margin:0}
+.savebtn{margin-top:10px;width:100%;display:block;text-align:center;text-decoration:none;font-weight:600;border-radius:10px;padding:11px 16px;background:var(--accent);color:var(--accent-ink);border:1px solid var(--accent)}
+.savebtn:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.panel > h2{display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none;-webkit-user-select:none;margin:-4px -6px 12px;padding:4px 6px;border-radius:8px}
+.panel > h2::after{content:"";width:9px;height:9px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg) translate(-2px,-2px);transition:transform .15s}
+.panel.collapsed > h2{margin-bottom:-4px}
+.panel.collapsed > h2::after{transform:rotate(-45deg)}
+.panel.collapsed > :not(h2){display:none !important}
+.panel > h2:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+#toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:25;max-width:min(560px,92vw);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;font-size:14px;box-shadow:0 8px 24px rgba(0,0,0,.3)}
+body.syncing #toast{bottom:calc(250px + env(safe-area-inset-bottom,0px))}
+.playbtn{min-width:84px}
+/* tap bar */
+#tapbar{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--panel);border-top:1px solid var(--line);
+  padding:14px 16px calc(14px + env(safe-area-inset-bottom,0px));box-shadow:0 -8px 30px rgba(20,10,60,.18)}
+#tapbar .inner{max-width:760px;margin:0 auto}
+#tapCount{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+#tapNext{font-family:"Fraunces",Georgia,serif;font-size:clamp(18px,4.5vw,24px);margin:2px 0 12px;min-height:1.4em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#tapBtn{width:100%;font-size:22px;padding:22px;border-radius:16px;touch-action:manipulation;user-select:none;-webkit-user-select:none}
+#tapBtn.flash{filter:brightness(1.25)}
+.tapside{display:flex;gap:10px;margin-top:10px}
+.tapside button{flex:1}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="titlerow">
+    <h1>Lyric Scroll</h1>
+    <button id="installBtn" type="button" hidden>Install app</button>
+  </div>
+  <p class="ver">Version 15</p>
+  <p class="sub">Paste your lyrics, time them to your song, style them, and export a video of the lines rolling up one at a time.</p>
+  <details class="guide">
+    <summary>How to use Lyric Scroll</summary>
+    <div class="guidebody">
+      <h3>Quick start</h3>
+      <ol>
+        <li>Paste your lyrics, one line per row.</li>
+        <li>Under Timing, choose your song, press <b>Start tap timing</b>, and tap the big button each time a new line should come in. Tap once more when the last line should leave.</li>
+        <li>Press <b>Play</b> to check it. Pick a font, color, size, and position.</li>
+        <li>Under Background, pick a background. Under Export, choose a frame shape and press <b>Record video</b>. Keep the screen open until it finishes.</li>
+        <li>Tap the <b>Save</b> button that appears. If nothing happens, <b>press and hold</b> it and choose <b>Download link</b>.</li>
+      </ol>
+
+      <h3>Saving your files</h3>
+      <p>When a video, PNG zip, or project file is ready, a <b>Save [file name]</b> button appears right below the button you pressed, showing the file size. Tap it to save the file to your Downloads folder.</p>
+      <p><b>If tapping Save does nothing</b> (common when the app is opened from your phone's Downloads), <b>press and hold the Save button and choose Download link</b>. On iPhone and iPad, Save opens the share menu instead: choose <b>Save Video</b> or <b>Save to Files</b>.</p>
+      <p>Android may add (1) to a file name if one with the same name is already in Downloads. If a song file won't open later, rename it so it ends in .mp3 or .m4a again.</p>
+
+      <h3>Timing</h3>
+      <p><b>Tapped to the song</b> lets every line land on the beat. <b>Even spacing</b> gives every line the same number of seconds and doesn't need a song.</p>
+      <p>To fix one line, pick it under <b>Fix one line</b>. <b>Earlier</b> and <b>Later</b> move it a tenth of a second. <b>Re-tap from here</b> replays a few seconds before that line and lets you re-tap from that point on, keeping everything above it.</p>
+      <p>If every line feels a little late (normal reaction time), slide <b>Shift all lines</b> to the left.</p>
+      <p>You can edit lyrics after tapping and keep your timing. Deleted lines are skipped, a reworded line keeps its time, and a new line is placed between its neighbors (marked ≈ in <b>Fix one line</b>). Pick it and press <b>Tap this line</b> to set just that one; every other line stays put.</p>
+
+      <h3>Title and breaks</h3>
+      <p>Type a title in <b>Title line</b>. It fades in and out over the background on its own. Set when it fades in and out (or leave the end empty and it fades out as the first lyric arrives).</p>
+      <p>To clear the screen mid-song, like during an instrumental, add a line with just <b>-</b> where the break goes and tap it in like a lyric. Every lyric fades away and only the background shows until the next line. <b>Clear screen before the first lyric and after the last</b> (in Timing) does the same at the start and end automatically.</p>
+
+      <h3>Sections</h3>
+      <p>Tap any section name to fold it up, so the preview stays close while you adjust settings. The app remembers which sections you keep closed.</p>
+
+      <h3>Projects</h3>
+      <p>Give the song a title and press <b>Save project</b> to keep a small file with its lyrics, timing, and style. <b>Open project</b> brings it all back, so you can work on several songs or re-export one later in another frame shape. Choose the song and picture again after opening.</p>
+
+      <h3>Backgrounds</h3>
+      <p><b>Picture</b> has <b>Fill the frame</b> (crops to fill) or <b>Show whole picture</b> (the full photo with black around it), plus a <b>Darker ↔ Brighter</b> slider: left for moody, right to wash out detail.</p>
+      <p>Use <b>Zoom</b>, <b>Left ↔ Right</b>, and <b>Up ↔ Down</b> to choose which part of the picture shows, like keeping the moon in frame when a wide photo is cropped for 9:16. <b>Re-center picture</b> resets them.</p>
+      <p><b>Transparent</b> is for editors that support see-through video. <b>Green screen</b> is for phone editors like InShot and CapCut: add the video as a PiP or overlay layer and use Chroma Key to remove the green. <b>Solid color</b> and <b>Picture</b> make a finished lyric video you can post as-is.</p>
+
+      <h3>Adding the song</h3>
+      <p><b>Include the song in the video</b> (in Export) puts the song chosen in Timing right into the video, matched to any clip you set. It works with picture and solid-color backgrounds, and you can turn it off anytime. If your phone can't add audio, the app says so and saves the video without sound.</p>
+      <p>Without it, the song isn't included in the video file. Add it in your editor or social app, starting at 0:00 so the lyrics stay in sync. Social apps often start a song at a highlight, so drag it back to the beginning.</p>
+      <p>To post a short clip, check <b>Export only part of the song</b> and set a start and end. Start the song at the same time in your app.</p>
+
+      <h3>Install as an app</h3>
+      <p><b>Android, tablets, Chromebooks:</b> tap <b>Install app</b> at the top, or Chrome's menu, then <b>Install app</b> (or <b>Add to Home screen</b>). <b>iPhone and iPad:</b> in Safari, tap Share, then <b>Add to Home Screen</b>. Once installed, it opens full screen and works offline after the first visit.</p>
+
+      <h3>Good to know</h3>
+      <ul>
+        <li>With a picture or solid background, the video is built frame by frame, usually faster than the song plays. Transparent videos still record in real time. Either way, keep the app open and the screen on until it finishes.</li>
+        <li>Transparent video works best in Chrome on a computer or Chromebook. iPhones save MP4, which can't be transparent, so use Green screen there.</li>
+        <li>PNG frames keep transparency anywhere and import into desktop editors as an image sequence.</li>
+        <li>Your lyrics, style, and timing are saved on this device. Songs and pictures aren't, so choose them again next time.</li>
+        <li>If the Choose song or Choose picture buttons don't open anything, open this page in Chrome or Safari instead of inside another app.</li>
+        <li>Remember to press <b>Save project</b> before you close the app or switch to a newer version, then use <b>Open project</b> in the new one.</li>
+      </ul>
+
+      <h3>What's new</h3>
+      <ul>
+        <li><b>Version 15:</b> Zoom and move the background picture to choose the crop.</li>
+        <li><b>Version 14:</b> Include the song in the video (on or off in Export).</li>
+        <li><b>Version 13:</b> Videos with a picture or solid background are built frame by frame, so they're the full length and save much faster.</li>
+        <li><b>Version 12:</b> Save is a real download link with the file size. Press and hold it and choose Download link if a tap does nothing. Smaller video files.</li>
+        <li><b>Version 11:</b> Timed breaks (a line with just -), title fade in/out times, clear screen at the start and end, Even spacing start delay, Darker ↔ Brighter picture slider.</li>
+        <li><b>Version 10:</b> On phones, Project, Export, and Lyrics sit above the preview.</li>
+        <li><b>Version 9:</b> Add lines after tapping without losing timing; Tap this line sets just one line.</li>
+        <li><b>Version 8:</b> Sections fold up, Background got its own section, Title line, Save buttons appear where you tapped.</li>
+        <li><b>Version 7:</b> Project files (Save project / Open project); deleting lines keeps the rest of your timing.</li>
+        <li><b>Version 6:</b> Installable app with an icon and offline use.</li>
+        <li><b>Versions 1 to 5:</b> Lyric scrolling, tap timing, green screen, pictures, fixing single lines, text position, clip export, and this guide.</li>
+      </ul>
+    </div>
+  </details>
+
+  <div class="grid">
+    <div class="stage">
+      <div class="screen" id="screen"><canvas id="preview" width="1920" height="1080"></canvas></div>
+      <div class="transport">
+        <button class="playbtn primary" id="play">Play</button>
+        <input type="range" id="scrub" min="0" max="1000" value="0" aria-label="Preview position">
+        <span class="time" id="time">0:00 / 0:00</span>
+      </div>
+      <label class="bgtoggle"><input type="checkbox" id="darkcheck"> Preview over dark checkerboard</label>
+    </div>
+
+    <div class="controls">
+      <div class="panel" data-sec="project">
+        <h2>Project</h2>
+        <div class="field">
+          <label for="projName">Song title</label>
+          <input type="text" id="projName" placeholder="Untitled song" autocomplete="off">
+        </div>
+        <div class="projbtns">
+          <button type="button" id="saveProj">Save project</button>
+          <span class="pick"><span class="pickface">Open project</span><input type="file" id="projFile" accept=".json,application/json,text/plain"></span>
+        </div>
+        <div class="status" id="projStatus" role="status"></div>
+        <a class="savebtn" id="projSaveBtn" href="#" hidden>Save file</a>
+        <p class="hint">A project file keeps the lyrics, timing, and style for one song, so you can switch between songs or come back later. The song and picture aren't included; choose them again after opening.</p>
+      </div>
+
+      <div class="panel" data-sec="export">
+        <h2>Export</h2>
+
+        <div class="field">
+          <label for="res">Frame</label>
+          <select id="res">
+            <option value="1920x1080" selected>16:9 · 1920×1080</option>
+            <option value="1080x1920">9:16 · 1080×1920</option>
+            <option value="1080x1080">Square · 1080×1080</option>
+            <option value="3840x2160">4K · 3840×2160</option>
+          </select>
+        </div>
+
+        <label class="check"><input type="checkbox" id="secOn"> Export only part of the song</label>
+        <div id="secBox" hidden>
+          <div class="row">
+            <div class="field">
+              <label for="secStart">Start</label>
+              <input type="text" id="secStart" inputmode="decimal" placeholder="0:00">
+              <button type="button" class="small" id="secStartHere">Use playhead</button>
+            </div>
+            <div class="field">
+              <label for="secEnd">End</label>
+              <input type="text" id="secEnd" inputmode="decimal" placeholder="end">
+              <button type="button" class="small" id="secEndHere">Use playhead</button>
+            </div>
+          </div>
+          <p class="hint" id="secHint"></p>
+        </div>
+
+        <details>
+          <summary>More options</summary>
+          <div class="field">
+            <label for="fps">Frame rate</label>
+            <select id="fps"><option>24</option><option selected>30</option><option>60</option></select>
+          </div>
+        </details>
+
+        <label class="check"><input type="checkbox" id="withAudio"> Include the song in the video</label>
+        <p class="hint" id="audioHint" style="margin:-4px 0 12px">Uses the song chosen in Timing. Works with picture and solid-color backgrounds.</p>
+        <div class="exports">
+          <button class="primary" id="exportVideo">Record video</button>
+          <button id="exportPng">Export PNG frames (.zip)</button>
+        </div>
+        <p class="hint" id="videoHint"></p>
+        <div class="progress" id="progress"><div></div></div>
+        <div id="status" role="status"></div>
+        <a class="savebtn" id="saveBtn" href="#" hidden>Save file</a>
+      </div>
+
+      <div class="panel" data-sec="lyrics">
+        <h2>Lyrics</h2>
+        <div class="field">
+          <label for="titleText">Title line (optional)</label>
+          <input type="text" id="titleText" placeholder="e.g. Ghost Winds · MLSS" autocomplete="off">
+          <div class="row3">
+            <div>
+              <label for="titleStart">Fades in at</label>
+              <input type="text" id="titleStart" inputmode="decimal" placeholder="0:00">
+              <button type="button" class="small" id="titleStartHere">Use playhead</button>
+            </div>
+            <div>
+              <label for="titleEnd">Fades out by</label>
+              <input type="text" id="titleEnd" inputmode="decimal" placeholder="first lyric">
+              <button type="button" class="small" id="titleEndHere">Use playhead</button>
+            </div>
+            <div>
+              <label for="titleFade">Fade</label>
+              <select id="titleFade"><option value="0">None</option><option value="0.5">0.5 s</option><option value="1" selected>1 s</option><option value="2">2 s</option><option value="3">3 s</option></select>
+            </div>
+          </div>
+          <p class="hint">The title shows on its own over the background. Leave "Fades out by" empty to have it fade out just as the first lyric comes in. It never affects your lyric timing.</p>
+        </div>
+        <div class="field">
+          <label for="lyrics">Lyrics</label>
+          <textarea id="lyrics">We can find peace in the motion
+Peace in the flow
+Peace in accepting
+The things we cannot know
+
+This is peace, this is peace
+Not the end but beginning again</textarea>
+          <p class="hint">One line per row. A line with just <b>-</b> is a timed break: tap it in like a lyric, and the screen clears so only the background shows.</p>
+        </div>
+      </div>
+
+      <div class="panel" data-sec="timing">
+        <h2>Timing</h2>
+        <div class="field">
+          <label for="mode">Timing</label>
+          <select id="mode"><option value="tapped">Tapped to the song</option><option value="even">Even spacing</option></select>
+        </div>
+
+        <div id="tappedBox">
+          <div class="field">
+            <label for="songFile">Song (optional)</label>
+            <div class="filebtn">
+              <span class="pick"><span class="pickface">Choose song</span><input type="file" id="songFile" accept="audio/*,.mp3,.m4a,.wav,.aac,.ogg,.flac"></span>
+              <span id="songName">No song loaded</span>
+            </div>
+            <p class="hint">Plays while you tap and during preview. It stays on your device and isn't added to the video.</p>
+          </div>
+          <div class="note" id="tapSummary">Not timed yet.</div>
+          <div class="nudges one" id="mismatchBox" hidden>
+            <button type="button" id="restoreLyrics">Restore tapped lyrics</button>
+          </div>
+          <div class="field">
+            <button class="primary" id="startTap" type="button" style="width:100%">Start tap timing</button>
+            <p class="hint">The song plays from the start. Tap the big button (or press the space bar) the moment each line should come in, then once more when the last line should leave.</p>
+          </div>
+
+          <div id="fixBox" hidden>
+            <div class="field">
+              <label for="fixLine">Fix one line</label>
+              <select id="fixLine"></select>
+            </div>
+            <div class="nudges">
+              <button type="button" id="nudgeEarly">Earlier</button>
+              <button type="button" id="nudgeLate">Later</button>
+              <button type="button" class="primary" id="tapOne">Tap this line</button>
+              <button type="button" id="retapFrom">Re-tap from here</button>
+            </div>
+            <p class="hint" id="fixHint"><b>Tap this line</b> plays just before it and sets only that line; every other line keeps its timing. Earlier and Later move it a tenth of a second. <b>Re-tap from here</b> re-times this line and everything after it. Lines marked ≈ are new and were placed between their neighbors, so tap them to set them exactly.</p>
+          </div>
+
+          <div class="field" style="margin-top:14px">
+            <label for="shift">Shift all lines <span class="rangeval" id="shiftVal"></span></label>
+            <input type="range" id="shift" min="-1" max="1" step="0.05" value="0">
+            <p class="hint">If every line arrives a little late, slide left.</p>
+          </div>
+        </div>
+
+        <label class="check"><input type="checkbox" id="clearEnds" checked> Clear screen before the first lyric and after the last</label>
+
+        <div id="evenBox" hidden>
+          <label class="check"><input type="checkbox" id="blankPause" checked> Blank rows add a pause</label>
+          <div class="field">
+            <label for="evenDelay">First lyric at <span class="rangeval" id="evenDelayVal"></span></label>
+            <input type="range" id="evenDelay" min="0" max="30" step="0.5" value="0">
+          </div>
+          <div class="field">
+            <label for="spl">Seconds per line <span class="rangeval" id="splVal"></span></label>
+            <input type="range" id="spl" min="1" max="10" step="0.1" value="3">
+          </div>
+        </div>
+      </div>
+
+      <div class="panel" data-sec="style">
+        <h2>Text style</h2>
+        <div class="row">
+          <div class="field">
+            <label for="font">Font</label>
+            <select id="font">
+              <option>Montserrat</option><option>Bebas Neue</option><option>Playfair Display</option>
+              <option>Poppins</option><option>Oswald</option><option>Lora</option>
+              <option>Dancing Script</option><option>Permanent Marker</option><option>Caveat</option>
+              <option>Anton</option><option>Cinzel</option><option>Quicksand</option>
+              <option>Space Mono</option><option>Arial</option><option>Georgia</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="color">Text color</label>
+            <input type="color" id="color" value="#ffffff">
+          </div>
+        </div>
+        <div class="field">
+          <label for="size">Size <span class="rangeval" id="sizeVal"></span></label>
+          <input type="range" id="size" min="24" max="220" value="84">
+        </div>
+        <div class="row">
+          <div class="field">
+            <label for="pos">Position</label>
+            <select id="pos"><option value="0.5" selected>Center</option><option value="0.75">Lower third</option><option value="0.25">Upper third</option></select>
+          </div>
+          <div class="field">
+            <label for="align">Alignment</label>
+            <select id="align"><option value="center" selected>Center</option><option value="left">Left</option><option value="right">Right</option></select>
+          </div>
+        </div>
+        <details>
+          <summary>More options</summary>
+          <div class="row">
+            <div class="field">
+              <label for="weight">Weight</label>
+              <select id="weight"><option value="400">Regular</option><option value="700" selected>Bold</option></select>
+            </div>
+            <div class="field">
+              <label for="visible">Lines on screen</label>
+              <select id="visible"><option value="1">1</option><option value="3">3</option><option value="5" selected>5</option><option value="7">7</option></select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="field">
+              <label for="outline">Outline <span class="rangeval" id="outlineVal"></span></label>
+              <input type="range" id="outline" min="0" max="16" value="0">
+            </div>
+            <div class="field">
+              <label for="outlineColor">Outline color</label>
+              <input type="color" id="outlineColor" value="#000000">
+            </div>
+          </div>
+          <div class="row">
+            <div class="field">
+              <label for="spacing">Line spacing</label>
+              <select id="spacing"><option value="1.2">Tight</option><option value="1.5" selected>Normal</option><option value="1.9">Airy</option></select>
+            </div>
+            <div class="field">
+              <label for="move">Scroll speed <span class="rangeval" id="moveVal"></span></label>
+              <input type="range" id="move" min="0.15" max="1.5" step="0.05" value="0.5">
+            </div>
+          </div>
+          <label class="check"><input type="checkbox" id="shadow"> Soft drop shadow</label>
+          <label class="check"><input type="checkbox" id="dim" checked> Fade lines that aren't current</label>
+        </details>
+      </div>
+
+      <div class="panel" data-sec="background">
+        <h2>Background</h2>
+        <div class="row">
+          <div class="field">
+            <label for="bg">Type</label>
+            <select id="bg">
+              <option value="transparent" selected>Transparent</option>
+              <option value="#00B140">Green screen</option>
+              <option value="#0047BB">Blue screen</option>
+              <option value="custom">Solid color…</option>
+              <option value="image">Picture…</option>
+            </select>
+          </div>
+          <div class="field" id="bgCustomBox" hidden>
+            <label for="bgCustom">Background color</label>
+            <input type="color" id="bgCustom" value="#000000">
+          </div>
+        </div>
+        <div id="bgImageBox" hidden>
+          <div class="field">
+            <label for="imgFile">Background picture</label>
+            <div class="filebtn">
+              <span class="pick"><span class="pickface">Choose picture</span><input type="file" id="imgFile" accept="image/*"></span>
+              <span id="imgName">No picture chosen</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="field">
+              <label for="bgFit">Picture fit</label>
+              <select id="bgFit"><option value="cover" selected>Fill the frame</option><option value="contain">Show whole picture</option></select>
+            </div>
+            <div class="field">
+              <label for="bgLight">Darker ↔ Brighter <span class="rangeval" id="bgLightVal"></span></label>
+              <input type="range" id="bgLight" min="-0.8" max="0.8" step="0.05" value="-0.3">
+            </div>
+          </div>
+          <div class="field">
+            <label for="bgZoom">Zoom <span class="rangeval" id="bgZoomVal"></span></label>
+            <input type="range" id="bgZoom" min="1" max="3" step="0.05" value="1">
+          </div>
+          <div class="row">
+            <div class="field">
+              <label for="bgX">Left ↔ Right</label>
+              <input type="range" id="bgX" min="-1" max="1" step="0.01" value="0">
+            </div>
+            <div class="field">
+              <label for="bgY">Up ↔ Down</label>
+              <input type="range" id="bgY" min="-1" max="1" step="0.01" value="0">
+            </div>
+          </div>
+          <button type="button" class="small" id="bgReset">Re-center picture</button>
+          <p class="hint">Move the picture to choose which part shows: with Fill the frame, slide to pick the crop; with Show whole picture, zoom in a little and slide to frame it. The picture isn't saved when you close the app, so you'll choose it again next time.</p>
+        </div>
+        <p class="hint" id="bgHint" hidden>In InShot, add the video as a PiP layer, then use Chroma to remove the green. Avoid green text or outlines, and turn off the drop shadow for the cleanest key.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast" role="status" aria-live="polite" hidden></div>
+<div class="dropzone" id="dropzone" hidden>Drop a song or picture</div>
+
+<div id="tapbar" hidden>
+  <div class="inner">
+    <div id="tapCount"></div>
+    <div id="tapNext"></div>
+    <button class="primary" id="tapBtn" type="button">Tap</button>
+    <div class="tapside">
+      <button id="tapUndo" type="button">Undo last tap</button>
+      <button id="tapCancel" type="button">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const preview = $('preview'), pctx = preview.getContext('2d');
+const FORM_IDS = ['lyrics','mode','shift','blankPause','spl','font','color','size','weight','align','outline','outlineColor','shadow','dim','move','visible','spacing','bg','bgCustom','bgFit','bgLight','bgZoom','bgX','bgY','res','fps','pos','secOn','secStart','secEnd','projName','titleText','titleStart','titleEnd','titleFade','clearEnds','evenDelay','withAudio'];
+
+// ---------- state ----------
+let timing = null;           // {lines:[...], times:[...], end, songDur}
+let syncing = false, taps = [], syncLines = [];
+let actx = null, audioBuf = null, srcNode = null, bgImage = null;
+let playing = false, t = 0, clockStartT = 0, clockStartRef = 0;
+
+let downloadsP = null;
+function getDownloads(){
+  if(!downloadsP){
+    downloadsP = (window.claude && typeof window.claude.use === 'function')
+      ? window.claude.use('downloads').catch(()=>null) : Promise.resolve(null);
+  }
+  return downloadsP;
+}
+
+// ---------- persistence ----------
+function saveState(){
+  try{
+    const f={}; FORM_IDS.forEach(id=>{ const el=$(id); f[id]= el.type==='checkbox'?el.checked:el.value; });
+    localStorage.setItem('lyricscroll', JSON.stringify({f, timing}));
+  }catch(e){}
+}
+function migrateForm(f){
+  if(f && !('bgLight' in f) && ('bgDim' in f)){ $('bgLight').value = -(+f.bgDim||0); }
+}
+function loadState(){
+  try{
+    const raw=localStorage.getItem('lyricscroll'); if(!raw) return;
+    const st=JSON.parse(raw);
+    if(st.f){ FORM_IDS.forEach(id=>{ if(id in st.f){ const el=$(id); if(el.type==='checkbox') el.checked=!!st.f[id]; else el.value=st.f[id]; } }); migrateForm(st.f); }
+    if(st.timing && Array.isArray(st.timing.times)) timing=st.timing;
+  }catch(e){}
+}
+
+// ---------- settings ----------
+const lyricLines = () => $('lyrics').value.replace(/\r/g,'').split('\n').map(s=>s.trim()).filter(Boolean);
+const sameLines = (a,b) => a && b && a.length===b.length && a.every((x,i)=>x===b[i]);
+// Match the current lyric lines to the tapped lines, in order.
+// - Removed lines are skipped; the rest keep their times.
+// - A changed line (same number of lines in that spot) keeps the old line's time.
+// - A new line is placed evenly between its neighbors and marked est (estimated).
+function mapTiming(){
+  if(!timing) return null;
+  const cur = lyricLines(), T = timing, n = cur.length;
+  const times = new Array(n).fill(null), idx = new Array(n).fill(-1), est = new Array(n).fill(false);
+  let j = 0, pending = [];
+  const settle = (skipStart, skipped) => {
+    if(!pending.length) return;
+    if(skipped === pending.length) pending.forEach((pi,q)=>{ times[pi]=T.times[skipStart+q]; idx[pi]=skipStart+q; });
+    else pending.forEach(pi=>{ est[pi]=true; });
+    pending = [];
+  };
+  for(let i=0;i<n;i++){
+    let k = j; while(k < T.lines.length && T.lines[k] !== cur[i]) k++;
+    if(k === T.lines.length){ pending.push(i); continue; }
+    settle(j, k-j);
+    times[i] = T.times[k]; idx[i] = k; j = k+1;
+  }
+  settle(j, T.lines.length-j);
+  // place new lines evenly between the nearest timed neighbors
+  for(let i=0;i<n;i++){
+    if(!est[i]) continue;
+    let r = i; while(r < n && est[r]) r++;
+    const run = r - i;
+    let b = r < n ? times[r] : T.end;
+    let a = i > 0 ? times[i-1] : Math.max(0, b - 2*(run+1));
+    if(!(b > a)) b = a + 2*(run+1);
+    for(let q=0;q<run;q++) times[i+q] = a + (b-a)*(q+1)/(run+1);
+    i = r - 1;
+  }
+  const matched = idx.filter(x=>x>=0).length;
+  return {lines:cur, times, idx, est, complete: n>0, mismatchAt:-1,
+          added: est.filter(Boolean).length, removed: T.lines.length - matched,
+          differs: !sameLines(T.lines, cur)};
+}
+// Make the current lyrics the saved tapped version (keeps every line's time as shown).
+function commitTiming(){
+  const m = mapTiming(); if(!m || !m.complete) return null;
+  if(m.differs){ timing = {lines:m.lines.slice(), times:m.times.slice(), end:timing.end, songDur:timing.songDur}; saveState(); }
+  return mapTiming();
+}
+
+function settings(){
+  const [W,H] = $('res').value.split('x').map(Number);
+  const mode = $('mode').value;
+  let lines, timed=false, times=null, end=null, songDur=null;
+  if(syncing){
+    lines = syncLines; timed = true; times = taps.slice(0, lines.length);
+    end = taps.length > lines.length ? taps[lines.length] : null;
+  } else if(mode==='tapped' && timingValid()){
+    const m = mapTiming();
+    lines = m.lines; timed = true;
+    const sh = +$('shift').value;
+    times = m.times.map(x=>Math.max(0,x+sh)); end = timing.end!=null ? Math.max(0,timing.end+sh) : null;
+    songDur = timing.songDur || (audioBuf ? audioBuf.duration : null);
+  } else {
+    const raw = $('lyrics').value.replace(/\r/g,'').split('\n').map(s=>s.trim());
+    lines = [];
+    for(const l of raw){ if(l==='' && (lines.length===0 || lines[lines.length-1]==='')) continue; lines.push(l); }
+    while(lines.length && lines[lines.length-1]==='') lines.pop();
+    if(!$('blankPause').checked) lines = lines.filter(l=>l!=='');
+  }
+  const bgSel = $('bg').value;
+  const spl = +$('spl').value;
+  return {
+    W,H,lines,timed,times,end,songDur,
+    font:$('font').value, color:$('color').value, size:+$('size').value,
+    weight:$('weight').value, align:$('align').value,
+    outline:+$('outline').value, outlineColor:$('outlineColor').value,
+    shadow:$('shadow').checked, dim:$('dim').checked,
+    spl, move: timed ? +$('move').value : Math.min(+$('move').value, spl*0.9),
+    visible:+$('visible').value, spacing:+$('spacing').value,
+    fps:+$('fps').value, pos:+$('pos').value, title:$('titleText').value.trim(),
+    bg: bgSel==='custom' ? $('bgCustom').value : (bgSel==='image' && !bgImage ? 'transparent' : bgSel),
+    bgFit:$('bgFit').value, bgLight:+$('bgLight').value, bgZoom:+$('bgZoom').value, bgX:+$('bgX').value, bgY:+$('bgY').value,
+    titleStart:parseTime($('titleStart').value), titleEnd:parseTime($('titleEnd').value), titleFade:+$('titleFade').value,
+    clearEnds:$('clearEnds').checked, delay: timed ? 0 : +$('evenDelay').value
+  };
+}
+function duration(s){
+  if(s.timed){
+    const last = s.end!=null ? s.end : (s.times.length ? s.times[s.times.length-1] : 0);
+    const base = last + s.move + 0.3;
+    const te = s.title && s.titleEnd!=null && !Number.isNaN(s.titleEnd) ? s.titleEnd : 0;
+    return Math.max(base, s.songDur || 0, audioBuf && syncing ? audioBuf.duration : 0, te);
+  }
+  return (s.lines.length + 1) * s.spl + (s.delay||0);
+}
+const isBreak = l => /^[-–—]$/.test(l);
+// When the first real lyric (not a break) arrives.
+function firstLyricTime(s){
+  const j = s.lines.findIndex(l => l && !isBreak(l));
+  if(j < 0) return null;
+  if(s.timed) return s.times[j] != null ? s.times[j] : null;
+  return (s.delay||0) + j*s.spl + (s.spl - s.move);
+}
+function titleWindow(s){
+  const a = s.titleStart!=null && !Number.isNaN(s.titleStart) ? s.titleStart : 0;
+  let b = s.titleEnd!=null && !Number.isNaN(s.titleEnd) ? s.titleEnd : firstLyricTime(s);
+  if(b == null) b = Infinity;
+  return [a,b];
+}
+const ease = x => x<.5 ? 4*x*x*x : 1-Math.pow(-2*x+2,3)/2;
+
+function posAt(s,t){
+  if(s.timed){
+    const ev = s.end!=null ? s.times.concat([s.end]) : s.times;
+    let pos = -1;
+    for(let i=0;i<ev.length;i++){
+      if(t>=ev[i]) pos = (i-1) + ease(Math.min(1,(t-ev[i])/s.move));
+      else break;
+    }
+    return pos;
+  }
+  t -= (s.delay||0);
+  if(t < 0) return -1;
+  const n = s.lines.length;
+  const slot = Math.min(Math.floor(t/s.spl), n);
+  const k = slot - 1;
+  const local = t - slot*s.spl;
+  const hold = s.spl - s.move;
+  if(local < hold) return k;
+  return k + ease(Math.min(1,(local-hold)/s.move));
+}
+
+function drawFrame(ctx,s,t){
+  const W=s.W, H=s.H;
+  ctx.clearRect(0,0,W,H);
+  if(s.bg==='image' && bgImage){
+    const iw=bgImage.width, ih=bgImage.height;
+    const sc = (s.bgFit==='cover' ? Math.max(W/iw,H/ih) : Math.min(W/iw,H/ih)) * (s.bgZoom||1);
+    const dw=iw*sc, dh=ih*sc;
+    ctx.fillStyle='#000'; ctx.fillRect(0,0,W,H);
+    // bgX/bgY run -1..1 and move the picture that way (right/down = positive), 0 centers.
+    // The travel is the overflow (cropped) or the empty space, whichever applies.
+    const px=(W-dw)/2 + (s.bgX||0)*Math.abs(W-dw)/2, py=(H-dh)/2 + (s.bgY||0)*Math.abs(H-dh)/2;
+    ctx.drawImage(bgImage,px,py,dw,dh);
+    if(s.bgLight<0){ ctx.fillStyle=`rgba(0,0,0,${-s.bgLight})`; ctx.fillRect(0,0,W,H); }
+    else if(s.bgLight>0){ ctx.save(); ctx.globalCompositeOperation='screen'; ctx.fillStyle=`rgba(255,255,255,${s.bgLight})`; ctx.fillRect(0,0,W,H); ctx.restore(); }
+  } else if(s.bg!=='transparent'){ ctx.fillStyle=s.bg; ctx.fillRect(0,0,W,H); }
+  if(!s.lines.length && !s.title) return;
+  const size = s.size, lh = size*s.spacing;
+  const pos = posAt(s,t);
+  const half = (s.visible-1)/2;
+  const maxW = W*0.88;
+  const x = s.align==='center' ? W/2 : s.align==='left' ? W*0.06 : W*0.94;
+  ctx.textAlign = s.align; ctx.textBaseline='middle'; ctx.lineJoin='round';
+  // Breaks (a lone "-") clear the screen: lines on the far side of a break are hidden,
+  // fading out as the break arrives and fading in as it leaves.
+  const breaks = [];
+  s.lines.forEach((l,i)=>{ if(isBreak(l)) breaks.push(i); });
+  if(s.clearEnds){ breaks.push(-1); breaks.push(s.lines.length); }
+  const sideFactor = i => {
+    let f = 1;
+    for(const b of breaks){
+      if(i < b){ if(pos >= b) return 0; if(pos > b-1) f *= (b - pos); }
+      else if(i > b){ if(pos <= b) return 0; if(pos < b+1) f *= (pos - b); }
+    }
+    return f;
+  };
+  const drawText = (text, y, a) => {
+    let fs = size;
+    ctx.font = `${s.weight} ${fs}px "${s.font}", sans-serif`;
+    const w = ctx.measureText(text).width;
+    if(w > maxW){ fs = fs*maxW/w; ctx.font = `${s.weight} ${fs}px "${s.font}", sans-serif`; }
+    ctx.globalAlpha = a;
+    if(s.shadow){ ctx.shadowColor='rgba(0,0,0,0.55)'; ctx.shadowBlur=fs*0.18; ctx.shadowOffsetY=fs*0.05; }
+    else { ctx.shadowColor='transparent'; ctx.shadowBlur=0; ctx.shadowOffsetY=0; }
+    if(s.outline>0){
+      ctx.strokeStyle=s.outlineColor; ctx.lineWidth=s.outline*2*(fs/size);
+      ctx.strokeText(text,x,y);
+      ctx.shadowColor='transparent';
+    }
+    ctx.fillStyle=s.color; ctx.fillText(text,x,y);
+  };
+  // Title: its own fade in/out, independent of the lyric scroll.
+  if(s.title){
+    const [ta,tb] = titleWindow(s), fd = s.titleFade;
+    let a = 0;
+    if(t >= ta && t <= tb){
+      a = 1;
+      if(fd > 0){ a = Math.min(a, (t-ta)/fd); if(tb !== Infinity) a = Math.min(a, (tb-t)/fd); }
+    }
+    if(a > 0.001) drawText(s.title, H*s.pos, Math.max(0,Math.min(1,a)));
+  }
+  s.lines.forEach((text,i)=>{
+    if(!text || isBreak(text)) return;
+    const d = i - pos, ad = Math.abs(d);
+    if(ad > half + 1) return;
+    let a = Math.max(0, Math.min(1, half + 1 - ad));
+    a *= sideFactor(i);
+    if(s.dim) a *= 1 - Math.min(ad,1)*0.6;
+    if(a<=0.001) return;
+    drawText(text, H*s.pos + d*lh, a);
+  });
+  ctx.globalAlpha=1; ctx.shadowColor='transparent';
+}
+
+// ---------- transport ----------
+const fmt = sec => { sec=Math.max(0,sec); const m=Math.floor(sec/60), r=Math.floor(sec%60); return m+':'+String(r).padStart(2,'0'); };
+function nowRef(){ return audioBuf && actx ? actx.currentTime : performance.now()/1000; }
+function curT(){ return playing ? clockStartT + (nowRef()-clockStartRef) : t; }
+async function startPlay(from){
+  t = from;
+  if(audioBuf){
+    try{ await actx.resume(); }catch(e){}
+    srcNode = actx.createBufferSource(); srcNode.buffer = audioBuf; srcNode.connect(actx.destination);
+    if(from < audioBuf.duration) srcNode.start(0, from);
+  }
+  clockStartT = from; clockStartRef = nowRef(); playing = true;
+  $('play').textContent='Pause';
+  requestAnimationFrame(loop);
+}
+function stopPlay(){
+  if(playing) t = curT();
+  playing = false; $('play').textContent='Play';
+  if(srcNode){ try{ srcNode.stop(); }catch(e){} srcNode=null; }
+}
+let S = settings();
+function loop(){
+  if(!playing) return;
+  t = curT();
+  if(singleIdx!==null){
+    if(audioBuf && t >= audioBuf.duration){ endSingle(); setStatus('The song ended before you tapped. That line kept its timing.'); return; }
+  } else if(syncing){
+    if(audioBuf && t >= audioBuf.duration){ finishSync(audioBuf.duration); return; }
+  } else {
+    const D = duration(S);
+    if(t >= D){ stopPlay(); t = D; }
+  }
+  render();
+  if(playing) requestAnimationFrame(loop);
+}
+function render(){
+  S = settings();
+  drawFrame(pctx,S,t);
+  const D = duration(S);
+  $('scrub').value = D ? Math.round(Math.min(t,D)/D*1000) : 0;
+  $('time').textContent = fmt(t)+' / '+fmt(D);
+}
+$('play').onclick=()=>{
+  if(syncing || singleIdx!==null) return;
+  if(playing){ stopPlay(); return; }
+  const D = duration(S); if(t>=D-0.05) t=0;
+  startPlay(t);
+};
+$('scrub').oninput=e=>{ if(syncing) return; const was=playing; stopPlay(); t = e.target.value/1000*duration(S); render(); if(was) startPlay(t); };
+$('darkcheck').onchange=e=>$('screen').classList.toggle('dark',e.target.checked);
+
+// ---------- UI sync ----------
+function refresh(){
+  const s = settings();
+  if(preview.width!==s.W || preview.height!==s.H){ preview.width=s.W; preview.height=s.H; }
+  $('sizeVal').textContent = s.size+' px';
+  $('outlineVal').textContent = s.outline ? s.outline+' px' : 'Off';
+  $('splVal').textContent = s.spl.toFixed(1)+' s';
+  $('moveVal').textContent = (+$('move').value).toFixed(2)+' s';
+  const sh = +$('shift').value; $('shiftVal').textContent = (sh>0?'+':'')+sh.toFixed(2)+' s';
+  const tapped = $('mode').value==='tapped';
+  $('tappedBox').hidden = !tapped; $('evenBox').hidden = tapped;
+  $('bgCustomBox').hidden = $('bg').value!=='custom';
+  $('bgImageBox').hidden = $('bg').value!=='image';
+  { const v=+$('bgLight').value; $('bgLightVal').textContent = v<0 ? 'Darker '+Math.round(-v*100)+'%' : v>0 ? 'Brighter '+Math.round(v*100)+'%' : 'Normal'; }
+  $('bgZoomVal').textContent = Math.round(+$('bgZoom').value*100)+'%';
+  $('evenDelayVal').textContent = (+$('evenDelay').value).toFixed(1)+' s';
+  $('bgHint').hidden = !['#00B140','#0047BB'].includes($('bg').value);
+  // timing summary
+  const n = lyricLines().length;
+  if(!timing){ $('tapSummary').textContent = n ? `Not timed yet. ${n} lines to tap.` : 'Add lyrics, then tap to time them.'; $('startTap').textContent='Start tap timing'; }
+  else {
+    const m = mapTiming();
+    $('startTap').textContent='Re-tap timing';
+    if(!m.complete){
+      $('tapSummary').textContent = 'Add lyrics to use your tapped timing.';
+    } else {
+      const notes=[];
+      if(m.added) notes.push(`${m.added} new line${m.added>1?'s':''} placed between neighbors (marked ≈ below; tap to set exactly)`);
+      if(m.removed) notes.push(`${m.removed} removed line${m.removed>1?'s':''} skipped`);
+      $('tapSummary').textContent = `${m.lines.length} lines timed. Lyrics end at ${fmt(timing.end)}.` + (notes.length?' '+notes.join('; ')+'.':'');
+    }
+  }
+  { const m = timing ? mapTiming() : null; $('mismatchBox').hidden = !(m && m.differs); }
+  $('secBox').hidden = !$('secOn').checked;
+  if($('secOn').checked){ const r=exportRange(settings()); $('secHint').textContent = r.ok ? `Exports ${fmtP(r.a)} to ${fmtP(r.b)} (${fmtP(r.b-r.a)} long). When you add the song in your social app, start it at ${fmtP(r.a)}.` : r.msg; }
+  fillFixList();
+  updateVideoHint();
+  if(t>duration(settings())) t=duration(settings());
+  render();
+}
+FORM_IDS.forEach(id=>{
+  $(id).addEventListener('input',()=>{ loadFont().then(()=>{ refresh(); saveState(); }); });
+});
+async function loadFont(){
+  const f=$('font').value, w=$('weight').value;
+  try{ await document.fonts.load(`${w} 40px "${f}"`); }catch(e){}
+}
+
+// ---------- song ----------
+async function loadSong(file){
+  stopPlay();
+  $('songName').textContent = 'Loading…';
+  try{
+    actx = actx || new (window.AudioContext||window.webkitAudioContext)();
+    const ab = await file.arrayBuffer();
+    audioBuf = await new Promise((res,rej)=>{ const p=actx.decodeAudioData(ab,res,rej); if(p&&p.then) p.then(res,rej); });
+    $('songName').textContent = file.name + ' · ' + fmt(audioBuf.duration);
+    if(timing && !timing.songDur){ timing.songDur = audioBuf.duration; saveState(); }
+  }catch(err){
+    audioBuf = null;
+    $('songName').textContent = 'That file couldn’t be played. Try an MP3, M4A, or WAV.';
+  }
+  refresh();
+}
+$('songFile').onchange=e=>{ const f=e.target.files[0]; if(f) loadSong(f); e.target.value=''; };
+
+// ---------- background picture ----------
+async function loadImage(file){
+  $('bg').value='image';
+  $('imgName').textContent='Loading…';
+  try{
+    bgImage = await createImageBitmap(file);
+    $('imgName').textContent = file.name;
+  }catch(err){
+    bgImage = null;
+    $('imgName').textContent = 'That picture couldn’t be opened. Try a JPG or PNG.';
+  }
+  saveState(); refresh();
+}
+$('bgReset').onclick=()=>{ $('bgZoom').value=1; $('bgX').value=0; $('bgY').value=0; refresh(); saveState(); };
+$('imgFile').onchange=e=>{ const f=e.target.files[0]; if(f) loadImage(f); e.target.value=''; };
+
+// drag and drop (computers and Chromebooks)
+let dragDepth=0;
+const isMedia = dt => dt && Array.from(dt.types||[]).includes('Files');
+window.addEventListener('dragenter',e=>{ if(!isMedia(e.dataTransfer)) return; e.preventDefault(); dragDepth++; $('dropzone').hidden=false; });
+window.addEventListener('dragover',e=>{ if(isMedia(e.dataTransfer)) e.preventDefault(); });
+window.addEventListener('dragleave',()=>{ dragDepth=Math.max(0,dragDepth-1); if(!dragDepth) $('dropzone').hidden=true; });
+window.addEventListener('drop',e=>{
+  if(!isMedia(e.dataTransfer)) return;
+  e.preventDefault(); dragDepth=0; $('dropzone').hidden=true;
+  const f=e.dataTransfer.files[0]; if(!f) return;
+  if(f.type.startsWith('audio/') || /\.(mp3|m4a|wav|aac|ogg|flac)$/i.test(f.name)){ $('mode').value='tapped'; loadSong(f); }
+  else if(f.type.startsWith('image/')) loadImage(f);
+  else setStatus('Drop a song (MP3, M4A, WAV) or a picture (JPG, PNG).');
+});
+
+// ---------- tap timing ----------
+function updateTapBar(){
+  const n = syncLines.length, k = taps.length;
+  $('tapCount').textContent = k < n ? `Line ${k+1} of ${n}` : 'All lines placed';
+  $('tapNext').textContent = k < n ? (isBreak(syncLines[k]) ? '— clear the screen —' : syncLines[k]) : 'Tap when the last line should leave';
+  $('tapBtn').textContent = k < n ? 'Tap' : 'Tap to end';
+  $('tapUndo').disabled = k===0;
+}
+function timingValid(){ const m = mapTiming(); return !!(m && m.complete); }
+$('restoreLyrics').onclick=()=>{
+  if(!timing) return;
+  if(!confirm('Put the lyrics back to the version you last timed? Edits since then will be lost.')) return;
+  $('lyrics').value = timing.lines.join('\n'); saveState(); refresh();
+  setStatus('Lyrics restored. Your tapped timing is back.');
+};
+$('startTap').onclick=()=>startSync(0);
+async function startSync(fromIndex){
+  const lines = lyricLines();
+  if(!lines.length){ setStatus('Add some lyrics first.'); return; }
+  stopPlay();
+  let from = 0;
+  const m = mapTiming();
+  if(fromIndex>0 && m && (m.complete || fromIndex<=m.mismatchAt)){
+    const sh = +$('shift').value;
+    const all = m.times.concat(m.complete?[timing.end]:[]).map(x=>Math.max(0,x+sh));
+    taps = all.slice(0, fromIndex);
+    const target = fromIndex < all.length ? all[fromIndex] : taps[taps.length-1] + 1;
+    from = Math.max(0, target - 3);
+  } else taps = [];
+  syncLines = lines; syncing = true;
+  document.body.classList.add('syncing');
+  $('tapbar').hidden = false; updateTapBar();
+  $('preview').scrollIntoView({behavior:'smooth', block:'start'});
+  setStatus(audioBuf ? '' : 'No song loaded, so timing runs on a silent clock.');
+  await startPlay(from);
+}
+function doTap(){
+  if(singleIdx!==null){ const b=$('tapBtn'); b.classList.add('flash'); setTimeout(()=>b.classList.remove('flash'),90); singleTap(); return; }
+  if(!syncing) return;
+  let now = curT();
+  if(taps.length) now = Math.max(now, taps[taps.length-1] + 0.05);
+  taps.push(now);
+  const b=$('tapBtn'); b.classList.add('flash'); setTimeout(()=>b.classList.remove('flash'),90);
+  if(taps.length > syncLines.length){ finishSync(now); return; }
+  updateTapBar();
+}
+$('tapBtn').addEventListener('pointerdown', e=>{ e.preventDefault(); doTap(); });
+$('tapBtn').addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); doTap(); } });
+document.addEventListener('keydown', e=>{
+  if((syncing || singleIdx!==null) && (e.code==='Space' || e.key===' ')){ e.preventDefault(); doTap(); }
+});
+$('tapUndo').onclick=()=>{ if(taps.length){ taps.pop(); updateTapBar(); } };
+$('tapCancel').onclick=()=>{ if(singleIdx!==null){ endSingle(); setStatus('Cancelled. That line kept its timing.'); return; } endSyncUI(); stopPlay(); t=0; setStatus('Tap timing cancelled. Your previous timing is unchanged.'); refresh(); };
+function endSyncUI(){ syncing=false; document.body.classList.remove('syncing'); $('tapbar').hidden=true; }
+function finishSync(endTime){
+  const lines = syncLines.slice();
+  const times = taps.slice(0, lines.length);
+  stopPlay(); endSyncUI();
+  if(times.length < lines.length){
+    t=0; setStatus(`The song ended after ${times.length} of ${lines.length} lines. Tap again to finish timing.`); refresh(); return;
+  }
+  timing = { lines, times, end: Math.max(endTime, times[times.length-1]+0.2), songDur: audioBuf ? audioBuf.duration : ((timing && timing.songDur) || null) };
+  $('mode').value='tapped'; $('shift').value=0;
+  t = 0; saveState(); refresh();
+  setStatus('Timing saved. Press Play to check it.');
+}
+
+// ---------- fix one line ----------
+const fmtP = sec => { sec=Math.max(0,sec); const m=Math.floor(sec/60); return m+':'+(sec%60).toFixed(1).padStart(4,'0'); };
+let lastEstKey='';
+function fillFixList(){
+  const sel=$('fixLine'); const keep=sel.value;
+  if(!timingValid()){ $('fixBox').hidden=true; return; }
+  $('fixBox').hidden=false;
+  const m=mapTiming(), sh=+$('shift').value;
+  const opts = m.lines.map((l,i)=>`<option value="${i}">${m.est[i]?'≈ ':''}${fmtP(m.times[i]+sh)}  ${isBreak(l)?'(clear screen)':l.replace(/[<&]/g,c=>c==='<'?'&lt;':'&amp;')}</option>`);
+  opts.push(`<option value="${m.lines.length}">${fmtP(timing.end+sh)}  (lyrics end)</option>`);
+  sel.innerHTML = opts.join('');
+  if(keep!=='' && +keep<=m.lines.length) sel.value=keep;
+  const estKey = m.est.map((e,i)=>e?i:'').join(',');
+  if(estKey !== lastEstKey){ lastEstKey = estKey; const first = m.est.indexOf(true); if(first>=0) sel.value = String(first); }
+}
+function nudge(d){
+  if(!timingValid()) return;
+  const m=commitTiming(), k=+$('fixLine').value, n=m.lines.length;
+  if(k===n) timing.end=Math.max(0,timing.end+d); else timing.times[m.idx[k]]=Math.max(0,timing.times[m.idx[k]]+d);
+  saveState(); refresh();
+  const at = (k===n?timing.end:timing.times[m.idx[k]]) + (+$('shift').value);
+  stopPlay(); t=Math.max(0,at-1.5); render();
+  setStatus(`${k===n?'Lyrics end':'Line '+(k+1)} now at ${fmtP(at)}. Press Play to hear it.`);
+}
+$('nudgeEarly').onclick=()=>nudge(-0.1);
+// ----- tap just one line -----
+let singleIdx = null;
+async function startSingle(k){
+  if(!timingValid()) return;
+  const m = commitTiming(); const n = m.lines.length;
+  if(k >= n){ setStatus('Pick a lyric line to tap.'); return; }
+  stopPlay();
+  const sh = +$('shift').value;
+  const prev = k>0 ? m.times[k-1]+sh : 0;
+  const here = m.times[k]+sh;
+  const from = Math.max(0, (here - prev) < 8 ? prev - 1 : here - 5);
+  singleIdx = k;
+  document.body.classList.add('syncing'); $('tapbar').hidden=false;
+  $('tapCount').textContent = `Line ${k+1}: tap when it should come in`;
+  $('tapNext').textContent = isBreak(m.lines[k]) ? '— clear the screen —' : m.lines[k];
+  $('tapBtn').textContent = 'Tap'; $('tapUndo').hidden = true;
+  $('preview').scrollIntoView({behavior:'smooth', block:'start'});
+  await startPlay(from);
+}
+function singleTap(){
+  const k = singleIdx, sh = +$('shift').value;
+  const n = timing.lines.length;
+  const lo = (k>0 ? timing.times[k-1] : 0) + 0.05;
+  const hi = (k<n-1 ? timing.times[k+1] : timing.end) - 0.05;
+  const raw = curT() - sh;
+  timing.times[k] = Math.min(Math.max(raw, lo), Math.max(lo, hi));
+  endSingle();
+  saveState(); lastEstKey=''; refresh(); $('fixLine').value=String(k);
+  const at = timing.times[k]+sh;
+  t = Math.max(0, at-1.5); render();
+  setStatus(`Line ${k+1} set to ${fmtP(at)}. Every other line kept its timing.` + (raw<lo||raw>hi?' (Kept it between the lines around it.)':''));
+}
+function endSingle(){ singleIdx=null; stopPlay(); document.body.classList.remove('syncing'); $('tapbar').hidden=true; $('tapUndo').hidden=false; }
+$('tapOne').onclick=()=>startSingle(+$('fixLine').value);
+$('nudgeLate').onclick=()=>nudge(0.1);
+$('retapFrom').onclick=()=>{ const k=+$('fixLine').value; commitTiming(); startSync(k); };
+$('fixLine').onchange=()=>{ if(!timingValid()) return; const m=mapTiming(); const k=+$('fixLine').value; const at=(k===m.lines.length?timing.end:m.times[k])+(+$('shift').value); stopPlay(); t=Math.max(0,at-1.5); render(); };
+
+// ---------- projects ----------
+const slug = v => (v||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,60);
+function formValues(){ const f={}; FORM_IDS.forEach(id=>{ const el=$(id); f[id]= el.type==='checkbox'?el.checked:el.value; }); return f; }
+$('saveProj').onclick=async()=>{
+  const name = $('projName').value.trim();
+  const data = {app:'lyric-scroll', version:1, name, savedAt:new Date().toISOString(), f:formValues(), timing};
+  const blob = new Blob([JSON.stringify(data,null,1)],{type:'application/json'});
+  await saveBlob((slug(name)||'lyrics')+'.lyricscroll.json', blob, 'project');
+};
+$('projFile').onchange=async e=>{
+  const file=e.target.files[0]; e.target.value=''; if(!file) return;
+  let data;
+  try{ data = JSON.parse(await file.text()); }catch(err){ projStatus('That file isn’t a Lyric Scroll project.'); return; }
+  if(!data || (typeof data.f!=='object' && !data.timing)){ projStatus('That file isn’t a Lyric Scroll project.'); return; }
+  stopPlay();
+  if(data.f){ FORM_IDS.forEach(id=>{ if(id in data.f){ const el=$(id); if(el.type==='checkbox') el.checked=!!data.f[id]; else el.value=data.f[id]; } }); migrateForm(data.f); }
+  if(data.name && !$('projName').value) $('projName').value=data.name;
+  timing = (data.timing && Array.isArray(data.timing.times)) ? data.timing : null;
+  audioBuf=null; $('songName').textContent='No song loaded';
+  bgImage=null; $('imgName').textContent='No picture chosen';
+  t=0; saveState(); await loadFont(); refresh();
+  const title = $('projName').value || file.name;
+  projStatus(`Opened ${title}. Choose the song${$('bg').value==='image'?' and picture':''} again to preview with sound.`);
+};
+
+// ---------- section ----------
+function parseTime(v){
+  v=(v||'').trim(); if(!v) return null;
+  const parts=v.split(':').map(Number); if(parts.some(isNaN)) return NaN;
+  return parts.length===1 ? parts[0] : parts[0]*60+parts[1];
+}
+function exportRange(s){
+  const D=duration(s);
+  if(!$('secOn').checked) return {a:0,b:D,ok:true,part:false};
+  const a0=parseTime($('secStart').value), b0=parseTime($('secEnd').value);
+  if(Number.isNaN(a0)||Number.isNaN(b0)) return {ok:false,msg:'Use times like 1:12 or 72.'};
+  const a=Math.min(Math.max(0,a0||0),D), b=b0==null?D:Math.min(Math.max(0,b0),D);
+  if(b-a<0.5) return {ok:false,msg:'End needs to be after start.'};
+  return {a,b,ok:true,part:true};
+}
+$('titleStartHere').onclick=()=>{ $('titleStart').value=fmtP(curT()); refresh(); saveState(); };
+$('titleEndHere').onclick=()=>{ $('titleEnd').value=fmtP(curT()); refresh(); saveState(); };
+$('secStartHere').onclick=()=>{ $('secStart').value=fmtP(curT()); refresh(); saveState(); };
+$('secEndHere').onclick=()=>{ $('secEnd').value=fmtP(curT()); refresh(); saveState(); };
+
+// ---------- export ----------
+let toastTimer=null;
+function toast(msg){
+  const el=$('toast'); if(!msg){ el.hidden=true; return; }
+  el.textContent=msg; el.hidden=false;
+  clearTimeout(toastTimer); toastTimer=setTimeout(()=>{ el.hidden=true; },5000);
+}
+// Export-area status; also pops a toast so messages are seen wherever you are on the page.
+function setStatus(msg, quiet){ $('status').textContent=msg; if(!quiet) toast(msg); }
+function projStatus(msg){ $('projStatus').textContent=msg; toast(msg); }
+function setProgress(p){ const el=$('progress'); el.style.display = p==null?'none':'block'; el.firstElementChild.style.width=((p||0)*100)+'%'; }
+function setBusy(b){ if(b) $('saveBtn').hidden=true; $('exportVideo').disabled=b || !pickMime(); $('exportPng').disabled=b; $('startTap').disabled=b; }
+async function saveBlob(name, blob, where){
+  const say = where==='project' ? projStatus : (m=>say(m));
+  const btn = where==='project' ? $('projSaveBtn') : $('saveBtn');
+  const dl = await getDownloads();
+  if(dl){
+    try{ await dl.save({filename:name, data:blob}); say('Saved '+name+'.'); }
+    catch(e){
+      if(e && e.code==='declined') say('Save cancelled. Try again whenever you are ready.');
+      else if(e && e.code==='too_large') say('That file is too large to save here. Try a lower frame rate or smaller frame.');
+      else if(e && e.code==='rate_limited') say('A save is already waiting for you. Finish that one, then try again.');
+      else say('Saving is unavailable in this view.');
+    }
+  } else {
+    // Standalone: the Save control is a real download link the person taps.
+    // On iPhone/iPad (where downloads are awkward) it opens the share sheet instead.
+    if(btn._url) URL.revokeObjectURL(btn._url);
+    const url = URL.createObjectURL(blob); btn._url = url;
+    const mb = blob.size/1048576;
+    const sizeTxt = mb >= 1 ? mb.toFixed(mb<10?1:0)+' MB' : Math.max(1,Math.round(blob.size/1024))+' KB';
+    btn.href = url; btn.download = name;
+    btn.textContent = `Save ${name} (${sizeTxt})`; btn.hidden = false;
+    say('Your file is ready. Tap Save. If nothing happens, press and hold the Save button and choose Download link.');
+    const ios = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform==='MacIntel' && navigator.maxTouchPoints>1);
+    btn.onclick = async e => {
+      if(ios && navigator.canShare){
+        const type = name.endsWith('.mp4')?'video/mp4':name.endsWith('.webm')?'video/webm':name.endsWith('.json')?'application/json':'application/zip';
+        let file=null; try{ file=new File([blob],name,{type}); }catch(err){}
+        if(file && navigator.canShare({files:[file]})){
+          e.preventDefault();
+          try{ await navigator.share({files:[file], title:name}); say('Shared '+name+'. Choose Save Video or Save to Files to keep it.'); }
+          catch(err){ if(err && err.name==='AbortError') say('Save cancelled. Tap Save again when ready.'); else say('Sharing didn’t work. Press and hold Save and choose Download Linked File.'); }
+          return;
+        }
+      }
+      // Let the link download normally; leave it visible in case it needs another tap.
+      setTimeout(()=>say(`Saving ${name}. It goes to your Downloads folder. If it doesn't appear, press and hold Save and choose Download link.`), 300);
+    };
+  }
+}
+function pickMime(){
+  if(!window.MediaRecorder) return null;
+  const solid = $('bg').value!=='transparent';
+  const webm = ['video/webm;codecs=vp9','video/webm;codecs=vp8','video/webm'];
+  const mp4 = ['video/mp4;codecs=avc1.42E01E','video/mp4;codecs=avc1','video/mp4'];
+  for(const m of (solid ? mp4.concat(webm) : webm.concat(mp4)))
+    if(MediaRecorder.isTypeSupported(m)) return m;
+  return null;
+}
+function updateVideoHint(){
+  const m = pickMime(), solid = $('bg').value!=='transparent';
+  let h;
+  if(!m) h = 'This browser can’t record video. Use PNG frames instead.';
+  else if(solid) h = (window.VideoEncoder ? 'Makes an MP4, usually faster than real time. ' : `Records ${m.includes('mp4')?'an MP4':'a WebM'} in real time. `) + 'Keep this screen open until it finishes.';
+  else if(m.startsWith('video/webm')) h = 'Records a WebM with a transparent background, in real time. Keep this screen open while it records. For InShot, choose Green screen instead.';
+  else h = 'This browser records MP4, which can’t hold transparency. Choose Green screen above for InShot, or use PNG frames.';
+  $('videoHint').textContent = h;
+  if(!$('progress').style.display || $('progress').style.display==='none') $('exportVideo').disabled = !m;
+}
+const baseName = () => (slug($('projName').value)||'lyrics')+'-'+$('res').value+({'#00B140':'-greenscreen','image':'-picture'}[$('bg').value]||'');
+
+// Frame-by-frame MP4 (WebCodecs + mp4-muxer): exact length, correct duration, faster than real time.
+// Used for solid and picture backgrounds; H.264 can't hold transparency.
+async function pickAvc(W,H,fps,bitrate){
+  const cands = W*H>3e6 ? ['avc1.640033','avc1.4d0033','avc1.420033'] : ['avc1.640028','avc1.4d0028','avc1.42e028','avc1.640029'];
+  for(const codec of cands){
+    const cfg={codec,width:W,height:H,bitrate,framerate:fps,avc:{format:'avc'}};
+    try{ const r=await VideoEncoder.isConfigSupported(cfg); if(r && r.supported) return cfg; }catch(e){}
+  }
+  return null;
+}
+// Pick an audio codec the phone can encode: AAC first (plays everywhere), then Opus.
+async function pickAudio(ch){
+  if(!window.AudioEncoder) return null;
+  const cands=[{codec:'mp4a.40.2', mux:'aac', sampleRate:48000, numberOfChannels:ch, bitrate:192000},
+               {codec:'mp4a.40.2', mux:'aac', sampleRate:44100, numberOfChannels:ch, bitrate:192000},
+               {codec:'opus', mux:'opus', sampleRate:48000, numberOfChannels:ch, bitrate:160000}];
+  for(const c of cands){
+    const cfg={codec:c.codec, sampleRate:c.sampleRate, numberOfChannels:c.numberOfChannels, bitrate:c.bitrate};
+    try{ const r=await AudioEncoder.isConfigSupported(cfg); if(r && r.supported) return {cfg, mux:c.mux}; }catch(e){}
+  }
+  return null;
+}
+// The song from a to b seconds, resampled to the encoder's rate (silence past the song's end).
+async function songSection(a,b,sr,ch){
+  const len=Math.max(1,Math.ceil((b-a)*sr));
+  const oac=new OfflineAudioContext(ch,len,sr);
+  const src=oac.createBufferSource(); src.buffer=audioBuf; src.connect(oac.destination);
+  if(a < audioBuf.duration) src.start(0,a);
+  return await oac.startRendering();
+}
+async function encodeAudio(muxer, A, buf){
+  let failed=null;
+  const enc=new AudioEncoder({output:(chunk,meta)=>muxer.addAudioChunk(chunk,meta), error:e=>{ failed=e; }});
+  enc.configure(A.cfg);
+  const ch=A.cfg.numberOfChannels, sr=A.cfg.sampleRate, N=buf.length, step=4096;
+  const chans=[]; for(let c=0;c<ch;c++) chans.push(buf.getChannelData(Math.min(c,buf.numberOfChannels-1)));
+  for(let i=0;i<N;i+=step){
+    if(failed) throw failed;
+    const n=Math.min(step,N-i), data=new Float32Array(n*ch);
+    for(let c=0;c<ch;c++) data.set(chans[c].subarray(i,i+n), c*n);
+    const ad=new AudioData({format:'f32-planar', sampleRate:sr, numberOfFrames:n, numberOfChannels:ch, timestamp:Math.round(i*1e6/sr), data});
+    enc.encode(ad); ad.close();
+    while(enc.encodeQueueSize>16){ await new Promise(r=>setTimeout(r,4)); if(failed) throw failed; }
+  }
+  await enc.flush(); enc.close();
+  if(failed) throw failed;
+}
+
+async function exportMp4(s,R){
+  const W=s.W, H=s.H, fps=s.fps, bitrate = W*H>3e6?16e6:6e6;
+  const cfg = await pickAvc(W,H,fps,bitrate); if(!cfg) return false;
+  stopPlay(); await loadFont(); setBusy(true); setProgress(0);
+  setStatus('Making your video… keep this screen open.');
+  // Optional song track
+  let A=null, audioNote='';
+  if($('withAudio').checked){
+    if(!audioBuf) audioNote=' No song is loaded, so the video has no sound.';
+    else {
+      const ch=Math.min(2,audioBuf.numberOfChannels);
+      A=await pickAudio(ch);
+      if(!A) audioNote=' This phone can’t add audio here, so the video has no sound. Add the song in your editor.';
+    }
+  }
+  const c=document.createElement('canvas'); c.width=W; c.height=H; const ctx=c.getContext('2d');
+  const muxOpts={target:new Mp4Muxer.ArrayBufferTarget(), video:{codec:'avc', width:W, height:H, frameRate:fps}, fastStart:'in-memory'};
+  if(A) muxOpts.audio={codec:A.mux, numberOfChannels:A.cfg.numberOfChannels, sampleRate:A.cfg.sampleRate};
+  const muxer=new Mp4Muxer.Muxer(muxOpts);
+  let failed=null;
+  const enc=new VideoEncoder({output:(chunk,meta)=>muxer.addVideoChunk(chunk,meta), error:e=>{ failed=e; }});
+  const D=R.b-R.a, total=Math.max(1,Math.round(D*fps)), us=1e6/fps;
+  try{
+    enc.configure(cfg);
+    for(let f=0; f<total; f++){
+      if(failed) throw failed;
+      drawFrame(ctx,s,R.a+f/fps);
+      const frame=new VideoFrame(c,{timestamp:Math.round(f*us), duration:Math.round(us)});
+      enc.encode(frame,{keyFrame: f%(fps*2)===0}); frame.close();
+      while(enc.encodeQueueSize>8){ await new Promise(r=>setTimeout(r,4)); if(failed) throw failed; }
+      if(f%15===0){
+        setProgress(f/total); setStatus(`Making your video… ${Math.round(f/total*100)}%`, true);
+        drawFrame(pctx,s,R.a+f/fps); $('time').textContent = fmt(f/fps)+' / '+fmt(D);
+        await new Promise(r=>setTimeout(r));
+      }
+    }
+    await enc.flush(); enc.close();
+    if(A){
+      setStatus('Adding the song…', true);
+      try{
+        const buf=await songSection(R.a,R.b,A.cfg.sampleRate,A.cfg.numberOfChannels);
+        await encodeAudio(muxer,A,buf);
+      }catch(ae){ throw new Error('audio'); }
+    }
+    muxer.finalize();
+  }catch(e){
+    if(e && e.message==='audio'){
+      // Video was fine; audio failed. Rebuild without sound rather than lose the export.
+      setProgress(null); setBusy(false);
+      $('withAudio').checked=false;
+      const r = await exportMp4(s,R);
+      $('withAudio').checked=true;
+      setStatus('Adding the song didn’t work on this phone, so the video was saved without sound. Add the song in your editor.');
+      return r;
+    }
+    try{ enc.close(); }catch(_){}
+    setProgress(null); setBusy(false); render();
+    setStatus('This device couldn’t build the MP4 directly, so recording in real time instead…');
+    return false;
+  }
+  const blob=new Blob([muxer.target.buffer],{type:'video/mp4'});
+  setProgress(null); setBusy(false); render();
+  await saveBlob(baseName()+(R.part?'-clip':'')+(A?'-with-song':'')+'.mp4', blob);
+  if(audioNote) setStatus(audioNote.trim());
+  return true;
+}
+
+$('exportVideo').onclick=async()=>{
+  const s=settings(); if(!s.lines.length){ setStatus('Add some lyrics first.'); return; }
+  const R=exportRange(s); if(!R.ok){ setStatus(R.msg); return; }
+  if(s.bg!=='transparent' && window.VideoEncoder && window.VideoFrame && window.Mp4Muxer){
+    if(await exportMp4(s,R)) return;
+  }
+  const mime=pickMime(); if(!mime) return;
+  if($('withAudio').checked) toast('Transparent videos are saved without the song. Add it in your editor.');
+  stopPlay();
+  await loadFont(); setBusy(true);
+  // Record straight from the on-screen preview canvas: phones reliably capture a visible canvas.
+  if(preview.width!==s.W || preview.height!==s.H){ preview.width=s.W; preview.height=s.H; }
+  $('preview').scrollIntoView({block:'center'});
+  drawFrame(pctx,s,R.a);
+  const stream=preview.captureStream(s.fps);
+  const chunks=[];
+  let rec;
+  try{ rec=new MediaRecorder(stream,{mimeType:mime, videoBitsPerSecond: s.W*s.H>3e6?16e6:6e6}); }
+  catch(e){ setBusy(false); setStatus('Recording couldn’t start in this browser. Use PNG frames instead.'); return; }
+  rec.ondataavailable=e=>{ if(e.data.size) chunks.push(e.data); };
+  const D=R.b-R.a;
+  const done=new Promise(r=>rec.onstop=r);
+  rec.start();
+  setStatus('Recording… keep this screen open.'); setProgress(0);
+  const start=performance.now();
+  await new Promise(resolve=>{
+    function step(){
+      const tt=(performance.now()-start)/1000;
+      drawFrame(pctx,s,R.a+Math.min(tt,D));
+      setProgress(Math.min(1,tt/D));
+      $('time').textContent = fmt(tt)+' / '+fmt(D);
+      if(tt>=D+0.25) resolve(); else requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  });
+  rec.stop(); await done; stream.getTracks().forEach(tr=>tr.stop());
+  const ext = mime.includes('mp4') ? 'mp4' : 'webm';
+  const blob=new Blob(chunks,{type:mime.split(';')[0]});
+  setProgress(null); setBusy(false); render();
+  if(blob.size < 2048){ setStatus('The recording came out empty on this device. Keep Chrome open and the screen on while it records, then try again. PNG frames are another option.'); return; }
+  await saveBlob(baseName()+(R.part?'-clip':'')+'.'+ext, blob);
+};
+
+$('exportPng').onclick=async()=>{
+  const s=settings(); if(!s.lines.length){ setStatus('Add some lyrics first.'); return; }
+  const R=exportRange(s); if(!R.ok){ setStatus(R.msg); return; }
+  if(!window.JSZip){ setStatus('The zip tool didn’t load. Check your connection and reload.'); return; }
+  stopPlay();
+  await loadFont(); setBusy(true); setProgress(0);
+  const c=document.createElement('canvas'); c.width=s.W; c.height=s.H;
+  const ctx=c.getContext('2d',{alpha:true});
+  const zip=new JSZip(); const D=R.b-R.a; const total=Math.ceil(D*s.fps);
+  const pad=Math.max(5,String(total).length);
+  for(let f=0; f<total; f++){
+    drawFrame(ctx,s,R.a+f/s.fps);
+    const blob=await new Promise(r=>c.toBlob(r,'image/png'));
+    zip.file('frame_'+String(f+1).padStart(pad,'0')+'.png', blob);
+    if(f%10===0){ setProgress(f/total*0.9); setStatus(`Rendering frame ${f+1} of ${total}…`, true); await new Promise(r=>setTimeout(r)); }
+  }
+  setStatus('Packing zip…', true);
+  const out=await zip.generateAsync({type:'blob',compression:'STORE'},m=>setProgress(0.9+m.percent/1000));
+  setProgress(null); setBusy(false);
+  await saveBlob(baseName()+(R.part?'-clip':'')+`-${s.fps}fps-frames.zip`, out);
+};
+
+// ---------- installable app ----------
+if('serviceWorker' in navigator && /^https?:$/.test(location.protocol) && !window.claude){
+  window.addEventListener('load',()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
+}
+let installEvt=null;
+window.addEventListener('beforeinstallprompt',e=>{ e.preventDefault(); installEvt=e; $('installBtn').hidden=false; });
+$('installBtn').onclick=async()=>{
+  if(!installEvt) return;
+  installEvt.prompt();
+  try{ await installEvt.userChoice; }catch(e){}
+  installEvt=null; $('installBtn').hidden=true;
+};
+window.addEventListener('appinstalled',()=>{ $('installBtn').hidden=true; });
+
+// ---------- collapsible sections ----------
+(function(){
+  let ui={}; try{ ui=JSON.parse(localStorage.getItem('lyricscroll-ui')||'{}'); }catch(e){}
+  document.querySelectorAll('.panel[data-sec]').forEach(panel=>{
+    const key=panel.dataset.sec, h=panel.querySelector(':scope > h2');
+    h.setAttribute('role','button'); h.tabIndex=0;
+    const set=c=>{ panel.classList.toggle('collapsed',c); h.setAttribute('aria-expanded',String(!c)); };
+    set(!!ui[key]);
+    const toggle=()=>{ const c=!panel.classList.contains('collapsed'); set(c); ui[key]=c; try{ localStorage.setItem('lyricscroll-ui',JSON.stringify(ui)); }catch(e){} };
+    h.addEventListener('click',toggle);
+    h.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); toggle(); } });
+  });
+})();
+
+loadState();
+document.fonts.ready.then(()=>loadFont()).then(refresh);
+refresh();
+</script>
+</body>
+</html>
