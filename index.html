@@ -176,15 +176,20 @@ body.syncing #toast{bottom:calc(250px + env(safe-area-inset-bottom,0px))}
 #tapBtn.flash{filter:brightness(1.25)}
 .tapside{display:flex;gap:10px;margin-top:10px}
 .tapside button{flex:1}
+.layoutseg{display:inline-flex;align-items:center;gap:0;margin:2px 0 12px;border:1px solid var(--line);border-radius:10px;overflow:hidden;font-size:13px}
+.layoutseg span{padding:6px 10px;color:var(--muted);font-weight:600}
+.layoutseg button{border:0;border-left:1px solid var(--line);border-radius:0;padding:6px 12px;font-size:13px;font-weight:600;background:var(--panel);color:var(--ink)}
+.layoutseg button.on{background:var(--accent);color:var(--accent-ink)}
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="titlerow">
     <h1>Lyric Scroll</h1>
-    <span style="display:flex;gap:8px;align-items:center"><select id="layoutSel" aria-label="Layout" style="width:auto;padding:6px 8px;font-size:13px"><option value="auto">Layout: Auto</option><option value="one">One column</option><option value="two">Two columns</option></select><button id="installBtn" type="button" hidden>Install app</button></span>
+    <span style="display:flex;gap:8px;align-items:center"><button id="installBtn" type="button" hidden>Install app</button></span>
   </div>
-  <p class="ver">Version 18</p>
+  <p class="ver">Version 19</p>
+  <div class="layoutseg" role="group" aria-label="Layout"><span>Layout</span><button type="button" data-v="one">1 column</button><button type="button" data-v="two">2 columns</button><button type="button" data-v="auto">Auto</button></div>
   <p class="sub">Paste your lyrics, time them to your song, style them, and export a video of the lines rolling up one at a time.</p>
   <details class="guide">
     <summary>How to use Lyric Scroll</summary>
@@ -214,7 +219,7 @@ body.syncing #toast{bottom:calc(250px + env(safe-area-inset-bottom,0px))}
       <p>To clear the screen mid-song, like during an instrumental, add a line with just <b>-</b> where the break goes and tap it in like a lyric. Every lyric fades away and only the background shows until the next line. <b>Clear screen before the first lyric and after the last</b> (in Timing) does the same at the start and end automatically.</p>
 
       <h3>Sections</h3>
-      <p>The <b>Layout</b> menu at the top switches between <b>Auto</b>, <b>One column</b>, and <b>Two columns</b> on any screen, and remembers your choice. Tap any section name to fold it up, so the preview stays close while you adjust settings. The app remembers which sections you keep closed.</p>
+      <p>The <b>Layout</b> buttons under the title switch between <b>Auto</b>, <b>1 column</b>, and <b>2 columns</b> on any screen, and remembers your choice. Tap any section name to fold it up, so the preview stays close while you adjust settings. The app remembers which sections you keep closed.</p>
 
       <h3>Projects</h3>
       <p><b>New project</b> clears everything back to the starting example so you can begin a new song (save the current one first). Give the song a title and press <b>Save project</b> to keep a small file with its lyrics, timing, and style. <b>Open project</b> brings it all back, so you can work on several songs or re-export one later in another frame shape. Choose the song and picture again after opening.</p>
@@ -247,6 +252,7 @@ body.syncing #toast{bottom:calc(250px + env(safe-area-inset-bottom,0px))}
 
       <h3>What's new</h3>
       <ul>
+        <li><b>Version 19:</b> Layout buttons under the title: 1 column, 2 columns, or Auto.</li>
         <li><b>Version 18:</b> Layout menu at the top: Auto, One column, or Two columns on any screen.</li>
         <li><b>Version 17:</b> Time boxes fill in the colon for you, so number-only phone keyboards work.</li>
         <li><b>Version 16:</b> New project button to start a fresh song.</li>
@@ -1450,9 +1456,11 @@ $('exportPng').onclick=async()=>{
 
 // ---------- layout ----------
 function applyLayout(v){ document.body.classList.toggle('force1',v==='one'); document.body.classList.toggle('force2',v==='two'); }
-try{ const v=localStorage.getItem('lyricscroll-layout'); if(v) $('layoutSel').value=v; }catch(e){}
-applyLayout($('layoutSel').value);
-$('layoutSel').onchange=e=>{ applyLayout(e.target.value); try{ localStorage.setItem('lyricscroll-layout',e.target.value); }catch(err){} };
+let layoutPref='auto'; try{ const v=localStorage.getItem('lyricscroll-layout'); if(v) layoutPref=v; }catch(e){}
+function markLayout(){ document.querySelectorAll('.layoutseg button').forEach(b=>b.classList.toggle('on',b.dataset.v===layoutPref)); }
+document.querySelectorAll('.layoutseg button').forEach(b=>b.onclick=()=>{ layoutPref=b.dataset.v; markLayout(); applyLayout(layoutPref); try{ localStorage.setItem('lyricscroll-layout',layoutPref); }catch(err){} });
+markLayout();
+applyLayout(layoutPref);
 
 // ---------- installable app ----------
 if('serviceWorker' in navigator && /^https?:$/.test(location.protocol) && !window.claude){
