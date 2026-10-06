@@ -92,6 +92,17 @@ h1{font-family:"Fraunces",Georgia,serif;font-weight:700;font-size:clamp(28px,5vw
   .stage{order:2}
   .grid{gap:16px}
 }
+/* Layout menu overrides */
+body.force1 .grid{grid-template-columns:1fr;gap:16px}
+body.force1 .stage{position:static;order:2}
+body.force1 .controls{display:contents}
+body.force1 .controls > .panel{order:3;margin-top:0 !important}
+body.force1 .controls > .panel[data-sec="project"],body.force1 .controls > .panel[data-sec="export"],body.force1 .controls > .panel[data-sec="lyrics"]{order:1}
+body.force2 .grid{grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:14px}
+body.force2 .stage{position:sticky;order:0}
+body.force2 .controls{display:block}
+body.force2 .controls > .panel{order:0;margin-top:14px !important}
+body.force2 .controls > .panel:first-child{margin-top:0 !important}
 .screen{border-radius:14px;overflow:hidden;border:1px solid var(--line);
   background-color:var(--check-b);
   background-image:linear-gradient(45deg,var(--check-a) 25%,transparent 25%,transparent 75%,var(--check-a) 75%),linear-gradient(45deg,var(--check-a) 25%,transparent 25%,transparent 75%,var(--check-a) 75%);
@@ -171,9 +182,9 @@ body.syncing #toast{bottom:calc(250px + env(safe-area-inset-bottom,0px))}
 <div class="wrap">
   <div class="titlerow">
     <h1>Lyric Scroll</h1>
-    <button id="installBtn" type="button" hidden>Install app</button>
+    <span style="display:flex;gap:8px;align-items:center"><select id="layoutSel" aria-label="Layout" style="width:auto;padding:6px 8px;font-size:13px"><option value="auto">Layout: Auto</option><option value="one">One column</option><option value="two">Two columns</option></select><button id="installBtn" type="button" hidden>Install app</button></span>
   </div>
-  <p class="ver">Version 17</p>
+  <p class="ver">Version 18</p>
   <p class="sub">Paste your lyrics, time them to your song, style them, and export a video of the lines rolling up one at a time.</p>
   <details class="guide">
     <summary>How to use Lyric Scroll</summary>
@@ -203,7 +214,7 @@ body.syncing #toast{bottom:calc(250px + env(safe-area-inset-bottom,0px))}
       <p>To clear the screen mid-song, like during an instrumental, add a line with just <b>-</b> where the break goes and tap it in like a lyric. Every lyric fades away and only the background shows until the next line. <b>Clear screen before the first lyric and after the last</b> (in Timing) does the same at the start and end automatically.</p>
 
       <h3>Sections</h3>
-      <p>Tap any section name to fold it up, so the preview stays close while you adjust settings. The app remembers which sections you keep closed.</p>
+      <p>The <b>Layout</b> menu at the top switches between <b>Auto</b>, <b>One column</b>, and <b>Two columns</b> on any screen, and remembers your choice. Tap any section name to fold it up, so the preview stays close while you adjust settings. The app remembers which sections you keep closed.</p>
 
       <h3>Projects</h3>
       <p><b>New project</b> clears everything back to the starting example so you can begin a new song (save the current one first). Give the song a title and press <b>Save project</b> to keep a small file with its lyrics, timing, and style. <b>Open project</b> brings it all back, so you can work on several songs or re-export one later in another frame shape. Choose the song and picture again after opening.</p>
@@ -236,6 +247,7 @@ body.syncing #toast{bottom:calc(250px + env(safe-area-inset-bottom,0px))}
 
       <h3>What's new</h3>
       <ul>
+        <li><b>Version 18:</b> Layout menu at the top: Auto, One column, or Two columns on any screen.</li>
         <li><b>Version 17:</b> Time boxes fill in the colon for you, so number-only phone keyboards work.</li>
         <li><b>Version 16:</b> New project button to start a fresh song.</li>
         <li><b>Version 15:</b> Zoom and move the background picture to choose the crop.</li>
@@ -1435,6 +1447,12 @@ $('exportPng').onclick=async()=>{
   setProgress(null); setBusy(false);
   await saveBlob(baseName()+(R.part?'-clip':'')+`-${s.fps}fps-frames.zip`, out);
 };
+
+// ---------- layout ----------
+function applyLayout(v){ document.body.classList.toggle('force1',v==='one'); document.body.classList.toggle('force2',v==='two'); }
+try{ const v=localStorage.getItem('lyricscroll-layout'); if(v) $('layoutSel').value=v; }catch(e){}
+applyLayout($('layoutSel').value);
+$('layoutSel').onchange=e=>{ applyLayout(e.target.value); try{ localStorage.setItem('lyricscroll-layout',e.target.value); }catch(err){} };
 
 // ---------- installable app ----------
 if('serviceWorker' in navigator && /^https?:$/.test(location.protocol) && !window.claude){
