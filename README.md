@@ -16,6 +16,7 @@ Lyric Scroll runs right in your browser on phones, tablets, Chromebooks, and com
 - **Style:** 15 fonts, any color, size, outline, glow, and position
 - **Export:** MP4 video with or without the song, transparent WebM, or PNG frames, in 16:9, 9:16, square, or 4K, as the whole song or just a clip
 - **Projects:** save each song's lyrics, timing, and style and pick up where you left off
+- **Timed lyrics (.lrc):** export your tap timing as a standard .lrc file
 
 ## Quick start
 
@@ -36,6 +37,6 @@ Once installed, it opens full screen and works offline.
 
 ## Credits
 
-Created by Melissa Landrum ([MLSS](https://www.instagram.com/mlssmusic/)).
+Designed by Melissa Landrum (MLSS). Built with Claude by Anthropic.
 
 MP4 export uses [mp4-muxer](https://github.com/Vanilagy/mp4-muxer) by Vanilagy, under the MIT License. Fonts from [Google Fonts](https://fonts.google.com/).

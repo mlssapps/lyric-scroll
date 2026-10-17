@@ -190,7 +190,7 @@ body.syncing #toast{bottom:calc(250px + env(safe-area-inset-bottom,0px))}
     <h1>Lyric Scroll</h1>
     <span style="display:flex;gap:8px;align-items:center"><button id="installBtn" type="button" hidden>Install app</button></span>
   </div>
-  <p class="ver">Version 20</p>
+  <p class="ver">Version 21</p>
   <div class="viewrow2"><div class="layoutseg" role="group" aria-label="Layout"><span>Layout</span><button type="button" data-v="one">1 column</button><button type="button" data-v="two">2 columns</button><button type="button" data-v="auto">Auto</button></div><div class="layoutseg sizeseg" role="group" aria-label="View size"><span>Size</span><button type="button" data-z="1">100%</button><button type="button" data-z="0.85">85%</button><button type="button" data-z="0.7">70%</button></div></div>
   <p class="sub">Paste your lyrics, time them to your song, style them, and export a video of the lines rolling up one at a time.</p>
   <details class="guide">
@@ -250,10 +250,11 @@ body.syncing #toast{bottom:calc(250px + env(safe-area-inset-bottom,0px))}
       </ul>
 
       <h3>Credits</h3>
-      <p>Lyric Scroll was created by Melissa Landrum (MLSS). MP4 export uses <b>mp4-muxer</b> by Vanilagy (MIT License), and PNG zips use <b>JSZip</b> (MIT License). Fonts are from Google Fonts.</p>
+      <p>Made by MLSS · built with Claude by Anthropic. MP4 export uses <b>mp4-muxer</b> by Vanilagy (MIT License), and PNG zips use <b>JSZip</b> (MIT License). Fonts are from Google Fonts.</p>
 
       <h3>What's new</h3>
       <ul>
+        <li><b>Version 21:</b> Export timed lyrics (.lrc) in Project, and an updated credit line.</li>
         <li><b>Version 20:</b> Size buttons (100%, 85%, 70%) to fit more on a phone screen.</li>
         <li><b>Version 19:</b> Layout buttons under the title: 1 column, 2 columns, or Auto.</li>
         <li><b>Version 18:</b> Layout menu at the top: Auto, One column, or Two columns on any screen.</li>
@@ -295,10 +296,12 @@ body.syncing #toast{bottom:calc(250px + env(safe-area-inset-bottom,0px))}
         <div class="projbtns">
           <button type="button" id="newProj" style="grid-column:1 / -1">New project</button>
           <button type="button" id="saveProj">Save project</button>
+          <button type="button" id="saveLrc" style="grid-column:1 / -1">Export timed lyrics (.lrc)</button>
           <span class="pick"><span class="pickface">Open project</span><input type="file" id="projFile" accept=".json,application/json,text/plain"></span>
         </div>
         <div class="status" id="projStatus" role="status"></div>
         <a class="savebtn" id="projSaveBtn" href="#" hidden>Save file</a>
+        <p class="hint">A <b>.lrc</b> file is a plain text list of your lyrics with their tap times, like <b>[01:27.40] A line</b>. Use it as a cheat sheet when syncing lyrics in Musixmatch or DistroKid, in music players that read .lrc files, or as a backup of your timing. It includes the timing shift.</p>
         <p class="hint">A project file keeps the lyrics, timing, and style for one song, so you can switch between songs or come back later. The song and picture aren't included; choose them again after opening.</p>
       </div>
 
@@ -1132,6 +1135,18 @@ $('newProj').onclick=()=>{
   $('projSaveBtn').hidden=true; $('saveBtn').hidden=true;
   t=0; saveState(); loadFont().then(refresh);
   projStatus('New project started.');
+};
+$('saveLrc').onclick=async()=>{
+  if(!timingValid()){ projStatus('Time your lyrics first (under Timing), then export the .lrc file.'); return; }
+  const m = mapTiming(), sh = +$('shift').value, name = $('projName').value.trim();
+  const ts = x => { x = Math.max(0, x); const mm = Math.floor(x/60), ss = x - mm*60; return '[' + String(mm).padStart(2,'0') + ':' + ss.toFixed(2).padStart(5,'0') + ']'; };
+  const out = [];
+  if(name) out.push('[ti:' + name + ']');
+  out.push('[by:Lyric Scroll]');
+  m.lines.forEach((l,i) => { if(m.times[i] == null) return; out.push(ts(m.times[i] + sh) + (isBreak(l) ? '' : l)); });
+  if(timing.end != null) out.push(ts(timing.end + sh));
+  const blob = new Blob([out.join('\n') + '\n'], {type:'text/plain'});
+  await saveBlob((slug(name)||'lyrics') + '.lrc', blob, 'project');
 };
 $('saveProj').onclick=async()=>{
   const name = $('projName').value.trim();
